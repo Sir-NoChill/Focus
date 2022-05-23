@@ -1,4 +1,4 @@
 package exceptions;
 
-public class InvalidTaskNameException extends Throwable {
+public class InvalidTaskNameException extends Exception {
 }

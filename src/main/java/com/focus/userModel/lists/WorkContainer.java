@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static com.focus.ExpCounter.getExpCounterInstance;
 import static java.util.Objects.isNull;
 
 //WorkContainer
@@ -39,6 +40,16 @@ public abstract class WorkContainer extends WorkItem {
         this.children = new ArrayList<>();
         this.dueDate = dueDate;
         this.manualProgressCalculation = manualProgressCalculation;
+    }
+
+    @Override
+    public void complete() {
+        getExpCounterInstance().add(this.expValue);
+        this.complete = true;
+        for (WorkItem child : this.children) {
+            getExpCounterInstance().add(child.getExpValue());
+            child.setComplete(true);
+        }
     }
 
 

@@ -2,8 +2,6 @@ package com.focus.userModel.lists;
 
 import annotations.Nullable;
 
-import static com.focus.ExpCounter.getExpCounterInstance;
-
 //Component
 public abstract class WorkItem {
 
@@ -22,10 +20,7 @@ public abstract class WorkItem {
         this.progress = 0;
     }
 
-    public void complete() {
-        getExpCounterInstance().add(this.expValue);
-        this.complete = true;
-    }
+    public abstract void complete();
 
     public WorkItem getParent() {
         return parent;
@@ -57,5 +52,13 @@ public abstract class WorkItem {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public double getProgress() {
+        return progress;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
     }
 }

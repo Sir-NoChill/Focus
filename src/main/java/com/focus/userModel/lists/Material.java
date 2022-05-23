@@ -2,6 +2,8 @@ package com.focus.userModel.lists;
 
 import java.io.File;
 
+import static com.focus.ExpCounter.getExpCounterInstance;
+
 //Leaf
 public abstract class Material extends WorkItem {
     private File attachedFile;
@@ -16,6 +18,12 @@ public abstract class Material extends WorkItem {
             this.attachedFile = new File(filePath);
         }
         this.progress = progress;
+    }
+
+    @Override
+    public void complete() {
+        getExpCounterInstance().add(this.expValue);
+        this.complete = true;
     }
 
 

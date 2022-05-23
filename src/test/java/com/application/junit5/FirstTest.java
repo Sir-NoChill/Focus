@@ -1,3 +1,5 @@
+package com.application.junit5;
+
 import org.junit.jupiter.api.Test;
 
 public class FirstTest {
