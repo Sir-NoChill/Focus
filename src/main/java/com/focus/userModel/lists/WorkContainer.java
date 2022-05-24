@@ -116,8 +116,9 @@ public abstract class WorkContainer extends WorkItem {
                 progress = numerator / denominator;
             }
             return progress;
+        } else {
+            throw new InvalidCalculationException();
         }
-        throw new InvalidCalculationException();
     }
 
     public void setParent(WorkContainer parent) {
@@ -152,4 +153,11 @@ public abstract class WorkContainer extends WorkItem {
         this.children = children;
     }
 
+    public boolean isManualProgressCalculation() {
+        return manualProgressCalculation;
+    }
+
+    public void setManualProgressCalculation(boolean manualProgressCalculation) {
+        this.manualProgressCalculation = manualProgressCalculation;
+    }
 }

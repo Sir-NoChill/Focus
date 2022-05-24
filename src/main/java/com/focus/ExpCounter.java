@@ -25,6 +25,10 @@ public class ExpCounter {
         expCount += amount;
     }
 
+    public void subtract(int amount) {
+        expCount -= amount;
+    }
+
     public void resetExpCounter() {
         this.expCount = 0;
     }

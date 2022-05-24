@@ -65,8 +65,8 @@ public class WorkContainerTests {
 
     @Test
     void testCalculatePercentComplete_NonZeroDenom() {
-        workContainer1.addItem(workContainer3);
-        workContainer1.addItem(workContainer2);
+        addChildren();
+
         workContainer2.complete();
 
         try {
@@ -74,5 +74,92 @@ public class WorkContainerTests {
         } catch (Exception e) {
             fail("Should not fail (non-zero denominator)");
         }
+    }
+
+    @Test
+    void testCalculateProgress_Exception() {
+        workContainer1.setManualProgressCalculation(true);
+        try {
+            workContainer1.calculatePercentComplete();
+            fail("zero denominator should have failed");
+        } catch (Exception e) {
+            //pass
+        }
+    }
+
+    @Test
+    void testCalculateProgress_Zero() {
+        addChildren();
+
+        try {
+            assertEquals(0, workContainer1.calculatePercentComplete());
+        } catch (Exception e) {
+            fail("Zero percent complete");
+        }
+    }
+
+    @Test
+    void testWorkItemSearch_NoFail() {
+        addChildren();
+
+        try {
+            assertEquals(workContainer3,workContainer1.searchWorkItem("mine"));
+        } catch (Exception e) {
+            fail("should search a valid name, should not fail");
+        }
+    }
+
+    @Test
+    void testSearchWorkItem_Fail() {
+        addChildren();
+
+        try {
+            workContainer1.searchWorkItem("asohdoi");
+            fail("Invalid name should have thrown an error");
+        } catch (Exception e) {
+            //pass
+        }
+    }
+
+    @Test
+    void testAddParent_ParentIsNull() {
+        assertNull(workContainer2.getParent());
+        assertEquals(0, workContainer1.getChildren().size());
+
+        workContainer2.addParent(workContainer1);
+
+        assertTrue(workContainer1.getChildren().contains(workContainer2));
+        assertEquals(workContainer1,workContainer2.getParent());
+    }
+
+    @Test
+    void testAddParent_ParentIsSame() {
+        workContainer2.addParent(workContainer1);
+
+        assertTrue(workContainer1.getChildren().contains(workContainer2));
+        assertEquals(workContainer1,workContainer2.getParent());
+
+        workContainer2.addParent(workContainer1);
+
+        assertTrue(workContainer1.getChildren().contains(workContainer2));
+        assertEquals(workContainer1,workContainer2.getParent());
+    }
+
+    @Test
+    void testAddParent_ParentIsOther() {
+        workContainer2.addParent(workContainer1);
+
+        assertTrue(workContainer1.getChildren().contains(workContainer2));
+        assertEquals(workContainer1,workContainer2.getParent());
+
+        workContainer2.addParent(workContainer3);
+        assertTrue(workContainer3.getChildren().contains(workContainer2));
+        assertFalse(workContainer1.getChildren().contains(workContainer2));
+        assertEquals(workContainer3, workContainer2.getParent());
+    }
+
+    private void addChildren() {
+        workContainer1.addItem(workContainer3);
+        workContainer1.addItem(workContainer2);
     }
 }
