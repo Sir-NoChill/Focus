@@ -2,11 +2,8 @@ package com.focus.focusTimer;
 
 import com.focus.userModel.lists.WorkItem;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
+//https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java
 public class Timer {
-    private Collection<WorkItem> goals;
 
     private int breaks;
     private long breakLength;
@@ -26,7 +23,6 @@ public class Timer {
         this.breaks = (int) timerLength / 1000 / 60 / 5;
         isRunning = false;
         this.timerOriginalLength = timerLength;
-        this.goals = new ArrayList<>();
     }
     public void startTimer() {
         setRunning(true);
@@ -41,14 +37,6 @@ public class Timer {
         setRunning(false);
         setTimerLength(timerOriginalLength);
     }
-    public void addGoal(WorkItem goal) {
-        this.goals.add(goal);
-    }
-    public void removeGoal(WorkItem goal) {
-        if (goals.contains(goal)) {
-            this.goals.remove(goal);
-        }
-    }
 
     public void completeGoal(WorkItem goal) {
         goal.complete();
@@ -59,6 +47,14 @@ public class Timer {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void run() {
+        while (isRunning) {
+            if ((startTime + timerLength) <= System.currentTimeMillis()) {
+                stopTimer();
+            }
         }
     }
     public int getBreaks() {
@@ -73,13 +69,6 @@ public class Timer {
     public void setBreakLength(long breakLength) {
         this.breakLength = breakLength;
     }
-    public Collection<WorkItem> getGoals() {
-        return goals;
-    }
-    public void setGoals(Collection<WorkItem> goals) {
-        this.goals = goals;
-    }
-
     public long getStartTime() {
         return startTime;
     }

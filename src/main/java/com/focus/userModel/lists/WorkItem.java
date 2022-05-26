@@ -10,7 +10,17 @@ public abstract class WorkItem {
     protected @Nullable WorkItem parent;
     protected String title;
     protected double progress; //ideally a percentage calculated dynamically
+    protected String description;
 
+
+    protected WorkItem(String title, int expValue, String description) {
+        this.complete = false;
+        this.expValue = expValue;
+        this.title = title;
+        this.parent = null;
+        this.progress = 0;
+        this.description = description;
+    }
 
     protected WorkItem(String title, int expValue) {
         this.complete = false;
@@ -18,6 +28,7 @@ public abstract class WorkItem {
         this.title = title;
         this.parent = null;
         this.progress = 0;
+        this.description = "";
     }
 
     public abstract void complete();

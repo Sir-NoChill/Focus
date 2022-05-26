@@ -18,6 +18,14 @@ public abstract class WorkContainer extends WorkItem {
     private @Nullable LocalDate dueDate;
     private boolean manualProgressCalculation;
 
+    public WorkContainer(String title, int expValue, String description) {
+        super(title, expValue, description);
+        this.projectedHours = 0;
+        this.children = new ArrayList<>();
+        this.dueDate = null;
+        this.manualProgressCalculation = false;
+    }
+
     public WorkContainer(String title, int expValue) {
         super(title, expValue);
         this.projectedHours = 0;
@@ -26,19 +34,27 @@ public abstract class WorkContainer extends WorkItem {
         this.manualProgressCalculation = false;
     }
 
-    public WorkContainer(String title, int expValue,LocalDate dueDate) {
-        super(title, expValue);
+    public WorkContainer(String title, int expValue,LocalDate dueDate, String description) {
+        super(title, expValue, description);
         this.projectedHours = 0;
         this.children = new ArrayList<>();
         this.dueDate = dueDate;
         this.manualProgressCalculation = false;
     }
 
-    public WorkContainer(String title, int expValue,LocalDate dueDate, boolean manualProgressCalculation) {
-        super(title, expValue);
+    public WorkContainer(String title, int expValue,LocalDate dueDate, boolean manualProgressCalculation, String description) {
+        super(title, expValue, description);
         this.projectedHours = 0;
         this.children = new ArrayList<>();
         this.dueDate = dueDate;
+        this.manualProgressCalculation = manualProgressCalculation;
+    }
+
+    public WorkContainer(String title, int expValue,boolean manualProgressCalculation, String description) {
+        super(title, expValue, description);
+        this.projectedHours = 0;
+        this.children = new ArrayList<>();
+        this.dueDate = null;
         this.manualProgressCalculation = manualProgressCalculation;
     }
 

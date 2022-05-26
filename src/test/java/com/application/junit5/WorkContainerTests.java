@@ -1,7 +1,7 @@
 package com.application.junit5;
 
 import com.focus.userModel.lists.WorkContainer;
-import com.focus.userModel.lists.workContainers.List;
+import com.focus.userModel.lists.workContainers.Epic;
 import com.focus.userModel.lists.workContainers.Project;
 import com.focus.userModel.lists.workContainers.Task;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ public class WorkContainerTests {
 
     @BeforeEach
     void setup() {
-        workContainer1 = new List("thing",200);
+        workContainer1 = new Epic("thing",200);
         workContainer3 = new Project("mine",300);
         workContainer2 = new Task("yum",20);
 

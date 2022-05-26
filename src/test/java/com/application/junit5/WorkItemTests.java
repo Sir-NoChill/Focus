@@ -15,7 +15,7 @@ public class WorkItemTests {
     @BeforeEach
     void setup() {
         workItem1 = new Epic("test",100);
-        workItem2 = new Action("testing",100,"",0.5);
+        workItem2 = new Action("testing",100,0.5);
     }
 
     @Test
