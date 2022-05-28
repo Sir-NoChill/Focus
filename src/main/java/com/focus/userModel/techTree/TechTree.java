@@ -1,18 +1,18 @@
 package com.focus.userModel.techTree;
 
-import annotations.Nullable;
+import exceptions.InvalidTechNameException;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 public class TechTree {
     private Collection<TechNode> tree;
 
-    public TechTree(TechNode root) {
-        this.tree = new ArrayList<>();
-        this.tree.add(root);
+    public TechTree(Collection<TechNode> root) {
+        this.tree = root;
     }
 
+    //TODO add a method in here to increment name values for the same rewards added multiple times
     public void addNode(int expRequirement, String reward, String description) {
         this.tree.add(new TechNode(expRequirement,reward,description));
     }
@@ -21,19 +21,12 @@ public class TechTree {
         this.tree.remove(techNode);
     }
 
-
-
-    public static class TechNode {
-        private @Nullable Collection<TechNode> children;
-        private int expRequirement;
-        private String reward;
-        private String description;
-
-        public TechNode(int expRequirement, String reward, String description) {
-            this.expRequirement = expRequirement;
-            this.reward = reward;
-            this.description = description;
+    public TechNode searchTechNode(String name) throws InvalidTechNameException {
+        for (TechNode techNode : this.tree) {
+            if (Objects.equals(techNode.getReward(),name)) {
+                return techNode;
+            }
         }
-
+        throw new InvalidTechNameException();
     }
 }

@@ -1,6 +1,7 @@
 package com.focus.userModel.lists;
 
 import annotations.Nullable;
+import annotations.Visual;
 
 //Component
 public abstract class WorkItem {
@@ -11,6 +12,8 @@ public abstract class WorkItem {
     protected String title;
     protected double progress; //ideally a percentage calculated dynamically
     protected String description;
+    protected int depth;
+
 
 
     protected WorkItem(String title, int expValue, String description) {
@@ -22,6 +25,16 @@ public abstract class WorkItem {
         this.description = description;
     }
 
+    protected WorkItem(String title, int expValue, String description, WorkItem parent) {
+        this.complete = false;
+        this.expValue = expValue;
+        this.title = title;
+        this.depth = parent.getDepth() + 1;
+        this.progress = 0;
+        this.description = description;
+        this.parent = parent;
+    }
+
     protected WorkItem(String title, int expValue) {
         this.complete = false;
         this.expValue = expValue;
@@ -31,14 +44,20 @@ public abstract class WorkItem {
         this.description = "";
     }
 
+    @Visual
+    public abstract void printWorkItem();
+
     public abstract void complete();
 
     public WorkItem getParent() {
         return parent;
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets the parent and makes this.depth parent.depth +1
     public void setParent(WorkItem parent) {
         this.parent = parent;
+        this.depth = parent.getDepth() + 1;
     }
 
     public int getExpValue() {
@@ -71,5 +90,21 @@ public abstract class WorkItem {
 
     public void setProgress(double progress) {
         this.progress = progress;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 }

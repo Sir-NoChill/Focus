@@ -17,9 +17,9 @@ public class WorkContainerTests {
 
     @BeforeEach
     void setup() {
-        workContainer1 = new Epic("thing",200);
-        workContainer3 = new Project("mine",300);
-        workContainer2 = new Task("yum",20);
+        workContainer1 = new Epic("thing",200, "");
+        workContainer3 = new Project("mine",300, "");
+        workContainer2 = new Task("yum",20, "");
 
         getExpCounterInstance().resetExpCounter();
     }

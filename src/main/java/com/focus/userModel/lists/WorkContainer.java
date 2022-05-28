@@ -1,12 +1,14 @@
 package com.focus.userModel.lists;
 
 import annotations.Nullable;
+import annotations.Visual;
 import exceptions.InvalidCalculationException;
 import exceptions.InvalidTaskNameException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 import static com.focus.ExpCounter.getExpCounterInstance;
 import static java.util.Objects.isNull;
@@ -20,6 +22,14 @@ public abstract class WorkContainer extends WorkItem {
 
     public WorkContainer(String title, int expValue, String description) {
         super(title, expValue, description);
+        this.projectedHours = 0;
+        this.children = new ArrayList<>();
+        this.dueDate = null;
+        this.manualProgressCalculation = false;
+    }
+
+    public WorkContainer(String title, int expValue, String description,WorkContainer parent) {
+        super(title, expValue, description,parent);
         this.projectedHours = 0;
         this.children = new ArrayList<>();
         this.dueDate = null;
@@ -94,7 +104,7 @@ public abstract class WorkContainer extends WorkItem {
     //for user ease
     public WorkItem searchWorkItem(String title) throws InvalidTaskNameException {
         for (WorkItem item : this.children) {
-            if (item.title.equals(title)) {
+            if (Objects.equals(title,this.getTitle())) {
                 return item;
             }
         }
@@ -134,6 +144,16 @@ public abstract class WorkContainer extends WorkItem {
             return progress;
         } else {
             throw new InvalidCalculationException();
+        }
+    }
+
+    @Override
+    @Visual
+    //FIXME this needs to be fixed to add the tabbing between levels
+    public void printWorkItem() {
+        System.out.println("-" + this.getTitle() + "\n");
+        for (WorkItem child : this.children) {
+            child.printWorkItem();
         }
     }
 

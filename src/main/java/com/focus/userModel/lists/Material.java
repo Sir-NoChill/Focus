@@ -1,5 +1,7 @@
 package com.focus.userModel.lists;
 
+import annotations.Visual;
+
 import java.io.File;
 
 import static com.focus.ExpCounter.getExpCounterInstance;
@@ -23,6 +25,18 @@ public abstract class Material extends WorkItem {
         this.progress = progress;
     }
 
+    protected Material(String title, int expValue, double progress,String description,WorkContainer parent) {
+        super(title, expValue,description,parent);
+        FileAddition("");
+        this.progress = progress;
+    }
+
+    public Material(String title, int expValue, String filePath, double progress, String description, WorkContainer parent) {
+        super(title, expValue, description, parent);
+        FileAddition(filePath);
+        this.progress = progress;
+    }
+
     private void FileAddition(String filePath) {
         if (filePath.equals("")) {
             this.attachedFile = null;
@@ -37,5 +51,9 @@ public abstract class Material extends WorkItem {
         this.complete = true;
     }
 
-
+    @Override
+    @Visual
+    public void printWorkItem() {
+        System.out.println("- (Leaf) -" + this.title + "\n");
+    }
 }

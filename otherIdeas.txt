@@ -1,0 +1,1 @@
+There should be a setting to switch between the tech tree reward view and the static reward view
