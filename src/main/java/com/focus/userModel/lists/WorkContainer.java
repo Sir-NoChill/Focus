@@ -70,11 +70,28 @@ public abstract class WorkContainer extends WorkItem {
 
     @Override
     public void complete() {
-        getExpCounterInstance().add(this.expValue);
+        if (inFocusList) {
+            getExpCounterInstance().add(this.expValue);
+        } else {
+            getExpCounterInstance().add(this.expValue);
+        }
         this.complete = true;
         for (WorkItem child : this.children) {
             getExpCounterInstance().add(child.getExpValue());
             child.setComplete(true);
+        }
+        //If the parents items are all completed by this completion,
+        // then complete the parent
+        if (!isNull(parent)) {
+            boolean areComplete = true;
+            for (WorkItem child : parent.getChildren()) {
+                if (child.isComplete() == false) {
+                    areComplete = false;
+                }
+            }
+            if (areComplete) {
+                parent.complete();
+            }
         }
     }
 

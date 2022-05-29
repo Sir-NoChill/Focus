@@ -124,21 +124,21 @@ public class ConsoleApplication {
 //            case"dispitemdet":
 //                displayItemDetails();
                 //break;
-//            case"addFocusItem":
-//                addFocusItem();
-                //break;
-//            case"remfocusitem":
-//                removeFocusItem();
-                //break;
-//            case"settimegoal":
-//                setFocusTimerDailyGoal();
-                //break;
-//            case"settimerlength":
-//                setTimerLength();
-                //break;
-//            case"setbreaklength":
-//                setBreakLength();
-                //break;
+            case"addFocusItem":
+                addFocusItem();
+                break;
+            case"remfocusitem":
+                removeFocusItem();
+                break;
+            case"settimegoal":
+                setFocusTimerDailyGoal();
+                break;
+            case"settimerlength":
+                setTimerLength();
+                break;
+            case"setbreaklength":
+                setBreakLength();
+                break;
 //            case"setnumbreaks":
 //                setNumberOfBreaks();
                 //break;
@@ -173,6 +173,55 @@ public class ConsoleApplication {
 //                getNumberOfFocusSessionsCompleted();
                 //break;
         }
+    }
+
+    private void setBreakLength() {
+        int breakLength = getMinutes();
+        System.out.println("Your break length is now set to " + breakLength + " minutes.");
+        breakLength = minutesToMiliseconds(breakLength);
+        this.focusTimer.setFocusTimerBreakLength(breakLength);
+    }
+
+    //IDEAS this could create a problem since the action is not done before the output
+    private void setTimerLength() {
+        int timerLength = getMinutes();
+        System.out.println("Your timer length is now " + timerLength + "Minutes");
+        timerLength = minutesToMiliseconds(timerLength);
+        this.focusTimer.setFocusTimerTotalLength(timerLength);
+    }
+
+    private void setFocusTimerDailyGoal() {
+        int focusGoal = getMinutes();
+        System.out.println("Your focus goal is now " + focusGoal + "Minutes");
+        focusGoal = minutesToMiliseconds(focusGoal);
+        this.focusTimer.setFocusTimerGoalDaily(focusGoal);
+    }
+
+    private int getMinutes() {
+        System.out.println("Enter the number of minutes you would like to focus per day:");
+        int focusGoal = input.nextInt();
+        return focusGoal;
+    }
+
+    private int minutesToMiliseconds(int minutes) {
+        return minutes * 60 * 1000;
+    }
+
+    //These two methods should have an if statement where you can strictly place one and not children or remove
+    //EFFECTS: adds the searched for item and all its children (if applicable) to the focus timer
+    private void addFocusItem() {
+        WorkItem addition = findWorkItem();
+        this.focusTimer.addGoal(addition);
+        if (addition instanceof WorkContainer) {
+            for (WorkItem child : ((WorkContainer) addition).getChildren()) {
+                this.focusTimer.addGoal(child);
+            }
+        }
+    }
+
+    private void removeFocusItem() {
+        WorkItem addition = findWorkItem();
+        this.focusTimer.removeGoal(addition);
     }
 
     private void getExpCurrentAmount() {

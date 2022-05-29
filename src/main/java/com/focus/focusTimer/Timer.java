@@ -4,10 +4,6 @@ import com.focus.userModel.lists.WorkItem;
 
 //https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java
 public class Timer {
-
-    private int breaks;
-    private long breakLength;
-
     private long startTime;
     private long timerLength;
     private long timerOriginalLength; //We want to be able to change this, so not final
@@ -15,12 +11,10 @@ public class Timer {
     private long elapsedTime;
     private boolean isRunning;
 
-    public Timer(long timerLength, long breakLength) {
+    public Timer(long timerLength) {
         this.timerLength = timerLength;
         this.startTime = 0;
         this.elapsedTime = 0;
-        this.breakLength = breakLength;
-        this.breaks = (int) timerLength / 1000 / 60 / 5;
         isRunning = false;
         this.timerOriginalLength = timerLength;
     }
@@ -54,20 +48,9 @@ public class Timer {
         while (isRunning) {
             if ((startTime + timerLength) <= System.currentTimeMillis()) {
                 stopTimer();
+                TimerNotifier.playSound();
             }
         }
-    }
-    public int getBreaks() {
-        return breaks;
-    }
-    public void setBreaks(int breaks) {
-        this.breaks = breaks;
-    }
-    public long getBreakLength() {
-        return breakLength;
-    }
-    public void setBreakLength(long breakLength) {
-        this.breakLength = breakLength;
     }
     public long getStartTime() {
         return startTime;

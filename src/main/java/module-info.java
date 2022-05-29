@@ -8,6 +8,7 @@ module com.example.focus {
 //    requires org.kordamp.ikonli.javafx;
 //    requires eu.hansolo.tilesfx;
     requires se.michaelthelin.spotify;
+    requires java.desktop;
 
     opens com.application.focus to javafx.fxml;
     exports com.application.focus;

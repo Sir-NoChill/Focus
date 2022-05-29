@@ -8,11 +8,12 @@ public abstract class WorkItem {
 
     protected int expValue;
     protected boolean complete;
-    protected @Nullable WorkItem parent;
+    protected @Nullable WorkContainer parent;
     protected String title;
     protected double progress; //ideally a percentage calculated dynamically
     protected String description;
     protected int depth;
+    protected boolean inFocusList;
 
 
 
@@ -23,9 +24,10 @@ public abstract class WorkItem {
         this.parent = null;
         this.progress = 0;
         this.description = description;
+        this.inFocusList = false;
     }
 
-    protected WorkItem(String title, int expValue, String description, WorkItem parent) {
+    protected WorkItem(String title, int expValue, String description, WorkContainer parent) {
         this.complete = false;
         this.expValue = expValue;
         this.title = title;
@@ -33,6 +35,7 @@ public abstract class WorkItem {
         this.progress = 0;
         this.description = description;
         this.parent = parent;
+        this.inFocusList = false;
     }
 
     protected WorkItem(String title, int expValue) {
@@ -42,6 +45,7 @@ public abstract class WorkItem {
         this.parent = null;
         this.progress = 0;
         this.description = "";
+        this.inFocusList = false;
     }
 
     @Visual
@@ -55,7 +59,7 @@ public abstract class WorkItem {
 
     //MODIFIES: this
     //EFFECTS: sets the parent and makes this.depth parent.depth +1
-    public void setParent(WorkItem parent) {
+    public void setParent(WorkContainer parent) {
         this.parent = parent;
         this.depth = parent.getDepth() + 1;
     }

@@ -5,6 +5,7 @@ import annotations.Visual;
 import java.io.File;
 
 import static com.focus.ExpCounter.getExpCounterInstance;
+import static java.util.Objects.isNull;
 
 //Leaf
 public abstract class Material extends WorkItem {
@@ -49,6 +50,17 @@ public abstract class Material extends WorkItem {
     public void complete() {
         getExpCounterInstance().add(this.expValue);
         this.complete = true;
+        if (!isNull(parent)) {
+            boolean areComplete = true;
+            for (WorkItem child : parent.getChildren()) {
+                if (child.isComplete() == false) {
+                    areComplete = false;
+                }
+            }
+            if (areComplete) {
+                parent.complete();
+            }
+        }
     }
 
     @Override

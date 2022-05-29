@@ -36,6 +36,7 @@ public class TechNode {
         }
     }
 
+    //TODO get to two decimal places
     public double getPercentComplete() {
         return (this.expRewardRunning / this.expRequirement) * 100;
     }
