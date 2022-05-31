@@ -1,22 +1,26 @@
 package com.focus.focusTimer;
 
-import com.focus.userModel.lists.WorkItem;
-
 //https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java
 public class Timer {
     private long startTime;
     private long timerLength;
     private long timerOriginalLength; //We want to be able to change this, so not final
-
     private long elapsedTime;
     private boolean isRunning;
+    private TimerId id;
 
-    public Timer(long timerLength) {
+    public enum TimerId {
+        FOCUS,
+        BREAK
+    }
+
+    public Timer(long timerLength, TimerId id) {
         this.timerLength = timerLength;
         this.startTime = 0;
         this.elapsedTime = 0;
         isRunning = false;
         this.timerOriginalLength = timerLength;
+        this.id = id;
     }
     public void startTimer() {
         setRunning(true);
@@ -27,14 +31,11 @@ public class Timer {
         setElapsedTime(System.currentTimeMillis() - startTime);
         setTimerLength(timerLength - elapsedTime);
     }
-    public void stopTimer() {
+    public void resetTimer() {
         setRunning(false);
         setTimerLength(timerOriginalLength);
     }
 
-    public void completeGoal(WorkItem goal) {
-        goal.complete();
-    }
     //The timer running method will need to be implemented in the main method
     public boolean isComplete() {
         if (this.timerLength <= 0) {
@@ -44,10 +45,12 @@ public class Timer {
         }
     }
 
+    //FIXME this is a UI method, user input should be placed in the while loop
     public void run() {
+        startTimer();
         while (isRunning) {
             if ((startTime + timerLength) <= System.currentTimeMillis()) {
-                stopTimer();
+                pauseTimer();
                 TimerNotifier.playSound();
             }
         }
@@ -75,5 +78,13 @@ public class Timer {
     }
     public void setRunning(boolean running) {
         isRunning = running;
+    }
+
+    public TimerId getId() {
+        return id;
+    }
+
+    public void setId(TimerId id) {
+        this.id = id;
     }
 }

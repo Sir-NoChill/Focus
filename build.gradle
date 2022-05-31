@@ -44,7 +44,6 @@ dependencies {
 //        exclude(group: 'org.openjfx')
 //    }
     implementation('se.michaelthelin.spotify:spotify-web-api-java:7.1.0')
-    implementation()
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 //    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

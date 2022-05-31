@@ -2,6 +2,7 @@ package com.application.focus.console;
 
 import com.focus.ExpCounter;
 import com.focus.focusTimer.FocusTimer;
+import com.focus.focusTimer.Timer;
 import com.focus.userModel.State;
 import com.focus.userModel.lists.WorkContainer;
 import com.focus.userModel.lists.WorkItem;
@@ -148,30 +149,66 @@ public class ConsoleApplication {
 //            case"getcurrentfocustime":
 //                getCurrentTotalFocusTime();
                 //break;
-//            case"start":
-//                startTimer();
-                //break;
-//            case"pause":
-//                pauseTimer();
-                //break;
-//            case"stop":
-//                stopTimer();
-                //break;
-//            case"completefocusitem":
-//                completeFocusItem();
-                //break;
-//            case"endbreak":
-//                endCurrentBreak();
-                //break;
-//            case"dispfocuslist":
-//                displayFocusList();
-                //break;
+            case"start":
+                startTimer();
+                break;
+            case"dispfocuslist":
+                displayFocusList();
+                break;
 //            case"setfocusexpmod":
 //                setFocusTimerExpMultiplier();
                 //break;
 //            case"getnumfocses":
 //                getNumberOfFocusSessionsCompleted();
                 //break;
+        }
+    }
+
+    private void displayFocusList() {
+        System.out.println("Focus session list: \n");
+        this.focusTimer.getFocusList().forEach(workItem -> workItem.printWorkItem());                                              ;
+    }
+
+    private void startTimer() {
+        this.focusTimer.generateTimers_NotTimeStrict();
+        this.focusTimer.startFocusTimer();
+        System.out.println("Timer started");
+        for (Timer timer : this.focusTimer.getTimers()) {
+            timer.startTimer();
+            this.focusTimer.setRunning(true);
+            this.focusTimer.setCurrentTimer(timer);
+            timer.run();
+            while (!timer.isComplete()) {
+                //wait and listen for pause etc
+                String command = input.next();
+                processTimerCommands(command);
+                if (!this.focusTimer.isRunning() && !this.focusTimer.getCurrentTimer().getId().equals(Timer.TimerId.BREAK)) {
+                    focusTimer.addTimeFocused();
+                    this.focusTimer.getCurrentTimer().pauseTimer();
+                    break;
+                } else if (!this.focusTimer.isRunning()) {
+                    this.focusTimer.getCurrentTimer().pauseTimer();
+                    break;
+                }
+            }
+            if (!this.focusTimer.getCurrentTimer().getId().equals(Timer.TimerId.BREAK)) {
+                this.focusTimer.addTimeFocused();
+            }
+        }
+        this.focusTimer.setRunning(false);
+        this.focusTimer.setFocusTimerSessionsUsed(this.focusTimer.getFocusTimerSessionsUsed() + 1);
+    }
+
+    //TODO Add the complete focus timer methods in here
+    private void processTimerCommands(String command) {
+        switch (command.toLowerCase(Locale.ROOT)) {
+            case "pause":
+                this.focusTimer.pauseFocusTimer();
+                break;
+            case "completeitem":
+            case "endbreak":
+            default:
+                processCommands(command);
         }
     }
 
@@ -646,10 +683,10 @@ public class ConsoleApplication {
                 "Get the current timer length ---------> getTimerLength" + "\n" +
                 "Get Focus time for this session ------> getCurrentFocusTime" + "\n" +
                 "Start the timer ----------------------> start" + "\n" +
-                "Pause the timer ----------------------> pause" + "\n" +
-                "Stop the timer (Reset) ---------------> stop" + "\n" +
-                "Complete Focus Item ------------------> completeFocusItem" + "\n" +
-                "End break early ----------------------> endBreak" + "\n" +
+                "Pause the timer ----------------------> pause (in focus loop)" + "\n" +
+                "Stop the timer (Reset) ---------------> stop  (in focus loop)" + "\n" +
+                "Complete Focus Item ------------------> completeFocusItem (in focus loop)" + "\n" +
+                "End break early ----------------------> endBreak (in focus loop)" + "\n" +
                 "Display Focus List -------------------> dispFocusList" + "\n" +
                 "Set Focus exp modifier ---------------> setFocusExpMod" + "\n" +
                 "Get number of Focus Sessions ---------> getNumFocSes" + "\n" +

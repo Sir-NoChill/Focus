@@ -6,8 +6,6 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
-import static jdk.internal.loader.BootLoader.findResource;
-
 //The class responsible for playing the sound when you finish a timer
 public class TimerNotifier {
     private static String fileName;
@@ -15,8 +13,8 @@ public class TimerNotifier {
     private static String filePath; // "//Focus/src/main/resources/sound";
 
     public TimerNotifier() {
-        this.fileName = "mixkit-rooster-crowing-in-the-morning-2462.wav";
-        this.filePath = "//Focus/src/main/resources/sound";
+        fileName = "mixkit-rooster-crowing-in-the-morning-2462.wav";
+        filePath = "//Focus/src/main/resources/sound/";
     }
 
     public static synchronized void playSound() {
@@ -25,8 +23,7 @@ public class TimerNotifier {
                 try {
                     soundFile = AudioSystem.getClip();
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            ConsoleMain.class.getResourceAsStream(
-                                    String.valueOf(findResource(filePath,fileName))));
+                            ConsoleMain.class.getResourceAsStream(filePath + fileName));
                     soundFile.open(inputStream);
                     soundFile.start();
                 } catch (Exception e) {
