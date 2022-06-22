@@ -1,16 +1,9 @@
 package com.application.focusfxml.uiControllers;
 
 import com.State;
-import elementStructure.Element;
-import elementStructure.TaskSuperclass;
-import elementStructure.tasks.SuperList;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.util.Callback;
-import uiClassExtensions.ElementTreeCellFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,25 +21,23 @@ public class MasterController implements Initializable {
     * controller so that the fields are distributed in the correct places
      */
     @FXML private TreeView taskTreeView;
-    @FXML public TabPane masterTabView;
-    @FXML public TextField selectedTaskTitle;
-    @FXML public TextField selectedTaskExpAmount;
-    @FXML public ProgressBar selectedTaskProgressBar;
-    @FXML public ToggleButton selectedTaskComplete;
-    @FXML public TextArea selectedTaskDescription;
-    @FXML public Label selectedTaskProgress;
-    @FXML public DatePicker selectedTaskDueDate;
-    @FXML public Label selectedTaskChildrenCount;
-    @FXML public Label selectedTaskEstimatedTimeRemaining; //TODO Denotes the type of time, or hours/minutes maybe
-    @FXML public ToggleButton selectedTaskManualProgress;
-    @FXML public Slider selectedTaskProgressSlider;
-    @FXML public TextField selectedTaskTimeDiv1;
-    @FXML public TextField selectedTaskTimeDiv2;
-    @FXML public TreeView subTaskTreeView;
+    @FXML private TabPane masterTabView;
+    @FXML private TextField selectedTaskTitle;
+    @FXML private TextField selectedTaskExpAmount;
+    @FXML private ProgressBar selectedTaskProgressBar;
+    @FXML private ToggleButton selectedTaskComplete;
+    @FXML private TextArea selectedTaskDescription;
+    @FXML private Label selectedTaskProgress;
+    @FXML private DatePicker selectedTaskDueDate;
+    @FXML private Label selectedTaskChildrenCount;
+    @FXML private Label selectedTaskEstimatedTimeRemaining; //TODO Denotes the type of time, or hours/minutes maybe
+    @FXML private ToggleButton selectedTaskManualProgress;
+    @FXML private Slider selectedTaskProgressSlider;
+    @FXML private TextField selectedTaskTimeDiv1;
+    @FXML private TextField selectedTaskTimeDiv2;
+    @FXML private TreeView subTaskTreeView;
 
     protected State state;
-    public TabPaneController tabPaneController;
-    public TreeViewController treeViewController;
 
     public State getState() {
         return state;
@@ -60,39 +51,6 @@ public class MasterController implements Initializable {
         this.state = null;
     }
 
-    //Needs to be indirectly recursive
-    //FCN call{
-    //  if true
-    //      element.add
-    //      element.addChildren
-    //  else
-    //      element.add
-    //EFFECTS: adds all elements in the state to the treeView
-    public TreeItem<Element> setTaskTreeView() {
-        TreeItem<Element> root = new TreeItem<>(new SuperList());
-
-        root.setExpanded(true);
-
-        while (!this.state.getElements().isEmpty()) {
-            addTreeItems(root, state.getElements().pop());
-        }
-
-        return root;
-    }
-
-    //Recursive call to be executed on the root node with all the elements from the State, which should be divided into
-    //two different SuperLists, one for completed = true, and one for completed = false
-    private void addTreeItems(TreeItem<Element> parent, Element child) {
-        if (TaskSuperclass.class.isAssignableFrom(child.getClass())) {
-            TreeItem<Element> addedItem = new TreeItem<>(child);
-            parent.getChildren().add(addedItem);
-            for (Element element : ((TaskSuperclass) child).getChildren()) {
-                addTreeItems(addedItem, element);
-            }
-        } else {
-            parent.getChildren().add(new TreeItem<>(child));
-        }
-    }
 
     /**
      * Called to initialize a controller after its root element has been
@@ -109,25 +67,138 @@ public class MasterController implements Initializable {
         //TODO Commnent this out when the time comes!!!!
         this.state = getTestState();
         //---------------------------
-        treeStateInit();
+        TaskMainTreeViewController.treeStateInit(taskTreeView,this.state);
         this.selectedTaskTitle = new TextField();
 
     }
 
-    private void treeStateInit() {
-        taskTreeView.setRoot(setTaskTreeView());
-        taskTreeView.setEditable(true);
-        taskTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
-            @Override
-            public TreeCell<Element> call(TreeView param) {
-                return new ElementTreeCellFactory();
-            }
-        });
-        taskTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-            @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                Element e = (Element) ((TreeItem) newValue).getValue();
-            }
-        });
+    //GETTERS AND SETTERS FOR ALL FIELDS BELOW THIS POINT
+
+    public TreeView getTaskTreeView() {
+        return taskTreeView;
+    }
+
+    public void setTaskTreeView(TreeView taskTreeView) {
+        this.taskTreeView = taskTreeView;
+    }
+
+    public TabPane getMasterTabView() {
+        return masterTabView;
+    }
+
+    public void setMasterTabView(TabPane masterTabView) {
+        this.masterTabView = masterTabView;
+    }
+
+    public TextField getSelectedTaskTitle() {
+        return selectedTaskTitle;
+    }
+
+    public void setSelectedTaskTitle(TextField selectedTaskTitle) {
+        this.selectedTaskTitle = selectedTaskTitle;
+    }
+
+    public TextField getSelectedTaskExpAmount() {
+        return selectedTaskExpAmount;
+    }
+
+    public void setSelectedTaskExpAmount(TextField selectedTaskExpAmount) {
+        this.selectedTaskExpAmount = selectedTaskExpAmount;
+    }
+
+    public ProgressBar getSelectedTaskProgressBar() {
+        return selectedTaskProgressBar;
+    }
+
+    public void setSelectedTaskProgressBar(ProgressBar selectedTaskProgressBar) {
+        this.selectedTaskProgressBar = selectedTaskProgressBar;
+    }
+
+    public ToggleButton getSelectedTaskComplete() {
+        return selectedTaskComplete;
+    }
+
+    public void setSelectedTaskComplete(ToggleButton selectedTaskComplete) {
+        this.selectedTaskComplete = selectedTaskComplete;
+    }
+
+    public TextArea getSelectedTaskDescription() {
+        return selectedTaskDescription;
+    }
+
+    public void setSelectedTaskDescription(TextArea selectedTaskDescription) {
+        this.selectedTaskDescription = selectedTaskDescription;
+    }
+
+    public Label getSelectedTaskProgress() {
+        return selectedTaskProgress;
+    }
+
+    public void setSelectedTaskProgress(Label selectedTaskProgress) {
+        this.selectedTaskProgress = selectedTaskProgress;
+    }
+
+    public DatePicker getSelectedTaskDueDate() {
+        return selectedTaskDueDate;
+    }
+
+    public void setSelectedTaskDueDate(DatePicker selectedTaskDueDate) {
+        this.selectedTaskDueDate = selectedTaskDueDate;
+    }
+
+    public Label getSelectedTaskChildrenCount() {
+        return selectedTaskChildrenCount;
+    }
+
+    public void setSelectedTaskChildrenCount(Label selectedTaskChildrenCount) {
+        this.selectedTaskChildrenCount = selectedTaskChildrenCount;
+    }
+
+    public Label getSelectedTaskEstimatedTimeRemaining() {
+        return selectedTaskEstimatedTimeRemaining;
+    }
+
+    public void setSelectedTaskEstimatedTimeRemaining(Label selectedTaskEstimatedTimeRemaining) {
+        this.selectedTaskEstimatedTimeRemaining = selectedTaskEstimatedTimeRemaining;
+    }
+
+    public ToggleButton getSelectedTaskManualProgress() {
+        return selectedTaskManualProgress;
+    }
+
+    public void setSelectedTaskManualProgress(ToggleButton selectedTaskManualProgress) {
+        this.selectedTaskManualProgress = selectedTaskManualProgress;
+    }
+
+    public Slider getSelectedTaskProgressSlider() {
+        return selectedTaskProgressSlider;
+    }
+
+    public void setSelectedTaskProgressSlider(Slider selectedTaskProgressSlider) {
+        this.selectedTaskProgressSlider = selectedTaskProgressSlider;
+    }
+
+    public TextField getSelectedTaskTimeDiv1() {
+        return selectedTaskTimeDiv1;
+    }
+
+    public void setSelectedTaskTimeDiv1(TextField selectedTaskTimeDiv1) {
+        this.selectedTaskTimeDiv1 = selectedTaskTimeDiv1;
+    }
+
+    public TextField getSelectedTaskTimeDiv2() {
+        return selectedTaskTimeDiv2;
+    }
+
+    public void setSelectedTaskTimeDiv2(TextField selectedTaskTimeDiv2) {
+        this.selectedTaskTimeDiv2 = selectedTaskTimeDiv2;
+    }
+
+    public TreeView getSubTaskTreeView() {
+        return subTaskTreeView;
+    }
+
+    public void setSubTaskTreeView(TreeView subTaskTreeView) {
+        this.subTaskTreeView = subTaskTreeView;
     }
 }

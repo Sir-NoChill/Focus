@@ -17,9 +17,9 @@
    <children>
       <TabPane fx:id="masterTabView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="469.0" prefWidth="642.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <tabs>
-            <Tab text="Tasks">
+            <Tab text="Tasks" >
                <content>
-                  <SplitPane dividerPositions="0.6666666666666666">
+                  <SplitPane dividerPositions="0.6666666666666666" >
                      <items>
                         <TreeView fx:id="taskTreeView" prefHeight="429.0" prefWidth="419.0" showRoot="false" />
                         <Accordion prefHeight="429.0" prefWidth="217.0">
