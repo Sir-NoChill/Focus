@@ -25,7 +25,10 @@ public class FocusApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("GUIv3.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                HelloApplication.class.getResource("GUIv3.fxml")//,
+                //ResourceBundle.getBundle("focusfxml"),
+        );
 
         Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
         controllerInit();
