@@ -21,4 +21,5 @@ public interface Element {
     void addChildren(Element element) throws LeafAddChildException;
 
     void setTitle(String text);
+    double getProgress();
 }

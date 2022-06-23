@@ -17,9 +17,9 @@
    <children>
       <TabPane fx:id="masterTabView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="469.0" prefWidth="642.0" tabClosingPolicy="UNAVAILABLE" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
          <tabs>
-            <Tab text="Tasks" >
+            <Tab text="Tasks">
                <content>
-                  <SplitPane dividerPositions="0.6666666666666666" >
+                  <SplitPane dividerPositions="0.6666666666666666">
                      <items>
                         <TreeView fx:id="taskTreeView" prefHeight="429.0" prefWidth="419.0" showRoot="false" />
                         <Accordion prefHeight="429.0" prefWidth="217.0">
@@ -30,7 +30,8 @@
                                        <items>
                                           <GridPane>
                                              <columnConstraints>
-                                                <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" />
+                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="225.0" />
+                                                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="205.0" />
                                              </columnConstraints>
                                              <rowConstraints>
                                                 <RowConstraints maxHeight="124.0" minHeight="50.0" prefHeight="83.0" vgrow="NEVER" />
@@ -40,11 +41,11 @@
                                                 <RowConstraints maxHeight="458.9999694824219" minHeight="40.0" prefHeight="322.0000305175781" valignment="CENTER" vgrow="SOMETIMES" />
                                              </rowConstraints>
                                              <children>
-                                                <ProgressBar fx:id="selectedTaskProgressBar" prefHeight="18.0" prefWidth="376.0" progress="0.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
-                                                <GridPane alignment="CENTER" gridLinesVisible="true" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                                <ProgressBar fx:id="selectedTaskProgressBar" prefHeight="18.0" prefWidth="376.0" progress="0.0" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" />
+                                                <GridPane alignment="CENTER" gridLinesVisible="true" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                                   <columnConstraints>
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="225.0" />
+                                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="10.0" prefWidth="205.0" />
                                                   </columnConstraints>
                                                   <rowConstraints>
                                                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -63,88 +64,29 @@
                                                       <Label fx:id="selectedTaskEstimatedTimeRemaining" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
                                                    </children>
                                                 </GridPane>
-                                                <Slider fx:id="selectedTaskProgressSlider" GridPane.rowIndex="1" />
-                                                <ToggleButton fx:id="selectedTaskComplete" mnemonicParsing="false" text="Complete" GridPane.rowIndex="3" />
-                                                <TreeView fx:id="subTaskTreeView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="4" />
+                                                <Slider fx:id="selectedTaskProgressSlider" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                                                <TreeView fx:id="subTaskTreeView" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                                                <Button mnemonicParsing="false" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                <CheckBox fx:id="selectedTaskComplete" mnemonicParsing="false" text="Complete" GridPane.rowIndex="3" />
                                              </children>
                                           </GridPane>
                                           <GridPane>
                                             <columnConstraints>
                                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                             </columnConstraints>
                                             <rowConstraints>
-                                              <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
-                                              <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="234.0" vgrow="SOMETIMES" />
+                                              <RowConstraints maxHeight="260.0" minHeight="10.0" prefHeight="260.0" vgrow="SOMETIMES" />
                                             </rowConstraints>
+                                             <children>
+                                                <TextArea prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647">
+                                                   <GridPane.margin>
+                                                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                   </GridPane.margin>
+                                                </TextArea>
+                                             </children>
                                           </GridPane>
                                        </items>
                                     </SplitPane>
-                                 </content>
-                              </TitledPane>
-                              <TitledPane animated="false" text="Edit">
-                                 <content>
-                                    <GridPane alignment="CENTER" prefHeight="365.0" prefWidth="137.0">
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="61.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="72.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="70.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints maxHeight="61.0" minHeight="30.0" prefHeight="61.0" vgrow="SOMETIMES" />
-                                          <RowConstraints maxHeight="210.0" minHeight="30.0" prefHeight="78.0" vgrow="SOMETIMES" />
-                                          <RowConstraints maxHeight="210.0" minHeight="30.0" prefHeight="60.0" vgrow="SOMETIMES" />
-                                        <RowConstraints maxHeight="210.0" minHeight="30.0" prefHeight="89.0" vgrow="SOMETIMES" />
-                                          <RowConstraints maxHeight="81.0" minHeight="30.0" prefHeight="41.0" vgrow="SOMETIMES" />
-                                        <RowConstraints maxHeight="110.0" minHeight="100.0" prefHeight="110.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <TextArea fx:id="selectedTaskDescription" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="5">
-                                             <GridPane.margin>
-                                                <Insets top="30.0" />
-                                             </GridPane.margin>
-                                          </TextArea>
-                                          <Label text="Description" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="TOP">
-                                             <GridPane.margin>
-                                                <Insets top="8.0" />
-                                             </GridPane.margin>
-                                          </Label>
-                                          <DatePicker fx:id="selectedTaskDueDate" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                             <GridPane.margin>
-                                                <Insets left="8.0" />
-                                             </GridPane.margin>
-                                          </DatePicker>
-                                          <Label text="Due Date" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-                                          <TextField fx:id="selectedTaskTitle" prefHeight="23.0" prefWidth="143.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647">
-                                             <GridPane.margin>
-                                                <Insets left="8.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                          <Label text="Title" GridPane.halignment="RIGHT" />
-                                          <Label text="Exp Bonus" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                                          <TextField fx:id="selectedTaskExpAmount" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
-                                             <GridPane.margin>
-                                                <Insets left="8.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                          <Label fx:id="selectedTaskLengthMetric" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                                          <TextField fx:id="selectedTaskTimeDiv2" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                             <GridPane.margin>
-                                                <Insets left="8.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                          <ToggleButton fx:id="selectedTaskManualProgress" mnemonicParsing="false" text="Manual Progress?" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="3">
-                                             <GridPane.margin>
-                                                <Insets />
-                                             </GridPane.margin>
-                                          </ToggleButton>
-                                          <TextField fx:id="selectedTaskTimeDiv1" prefHeight="25.0" prefWidth="61.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                             <GridPane.margin>
-                                                <Insets left="8.0" />
-                                             </GridPane.margin>
-                                          </TextField>
-                                       </children>
-                                    </GridPane>
                                  </content>
                               </TitledPane>
                               <TitledPane animated="false" disable="true" text="Task Visualiser">

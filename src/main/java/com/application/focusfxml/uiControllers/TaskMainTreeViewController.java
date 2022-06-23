@@ -52,6 +52,8 @@ public class TaskMainTreeViewController {
      * @param parent
      * @param child
      */
+    //Recursive call to be executed on the root node with all the elements from the State, which should be divided into
+    //two different SuperLists, one for completed = true, and one for completed = false
     private static void addTreeItems(TreeItem<Element> parent, Element child) {
         if (TaskSuperclass.class.isAssignableFrom(child.getClass())) {
             TreeItem<Element> addedItem = new TreeItem<>(child);
@@ -71,12 +73,31 @@ public class TaskMainTreeViewController {
     public static void treeStateInit(TreeView taskTreeView, State state) {
         taskTreeView.setRoot(setTaskTreeView(state));
         taskTreeView.setEditable(true);
+        setCellFactory(taskTreeView);
+        setFocusListener(taskTreeView);
+    }
+
+    /**
+     * sets the cell factory of taskTreeView to ElementTreeCellFactory
+     * @param taskTreeView
+     */
+    private static void setCellFactory(TreeView taskTreeView) {
         taskTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
             @Override
             public TreeCell<Element> call(TreeView param) {
                 return new ElementTreeCellFactory();
             }
         });
+    }
+
+    /**
+     * adds a change listener to the taskTreeView for listening purposes across the program
+     *
+     * Note that this may not be strictly necessary as the getSelectedItem might be able to replace this,
+     * however the listener may be necessary for the call to be made
+     * @param taskTreeView
+     */
+    private static void setFocusListener(TreeView taskTreeView) {
         taskTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -85,7 +106,11 @@ public class TaskMainTreeViewController {
         });
     }
 
-    //Recursive call to be executed on the root node with all the elements from the State, which should be divided into
-    //two different SuperLists, one for completed = true, and one for completed = false
+    public static Element getSelectedElement(TreeView treeView) {
+        TreeItem elementTreeItem = (TreeItem) treeView.getSelectionModel().getSelectedItem();
+        Element element = (Element) elementTreeItem.getValue();
+
+        return element;
+    }
 
 }

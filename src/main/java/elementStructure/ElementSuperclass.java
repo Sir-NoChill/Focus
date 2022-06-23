@@ -34,4 +34,7 @@ public abstract class ElementSuperclass {
     public void setTitle(String title) {
         this.title = title;
     }
+    public double getProgress() {
+        return this.progress;
+    }
 }
