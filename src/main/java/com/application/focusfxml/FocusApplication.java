@@ -1,10 +1,15 @@
 package com.application.focusfxml;
 
+import com.State;
+import com.application.focusfxml.uiControllers.Injector;
 import com.application.focusfxml.uiControllers.MasterController;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+
+import java.util.ResourceBundle;
 
 public class FocusApplication extends Application {
     private MasterController masterController;
@@ -25,13 +30,24 @@ public class FocusApplication extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                HelloApplication.class.getResource("GUIv3.fxml")//,
-                //ResourceBundle.getBundle("focusfxml"),
-        );
+        setupInjector();
 
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
-        controllerInit();
+        Parent root = Injector.load("GUIv3.fxml");
+//        FXMLLoader fxmlLoader = new FXMLLoader(
+//                HelloApplication.class.getResource("GUIv3.fxml"),
+//                ResourceBundle.getBundle("focusfxml"),
+//                new JavaFXBuilderFactory(),
+//                param -> {
+//                    //This needs to return the custon Controller class
+//                    //With data?
+//                    //State state = State.getTestState();
+//                    //return new Controller(state); //Returns a new controller with the state data
+//                    return null;
+//                }
+//        );
+
+//        Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
+//        controllerInit();
 //        Put a loading sequence here that loads the last state if it is available, if not, start a new state
 //        Loading sequence should load a new MasterController which holds a field that is a State
 //        State state;
@@ -40,10 +56,23 @@ public class FocusApplication extends Application {
 //        } else {
 //            loadDefaultState();
 //        }
-
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
+        stage.setTitle("Focus");
+        stage.setScene(new Scene(root,1000,800));
         stage.show();
+    }
+
+    //IDEAS I am not 100% sure that the interface injection idea I have going on here is the right one
+    private void setupInjector() {
+        Injector.setBundle(ResourceBundle.getBundle("focusfxml"));
+        Callback<Class<?>,Object> controllerFactory = param -> {
+            //Get Data (this will be from the saved file eventually
+            State.getTestState();//TODO for testing purposes ONLY
+            return new MasterController();
+        };
+
+        Injector.addInjectionMethod(
+                MasterController.class,controllerFactory
+        );
     }
 
     private void controllerInit() {

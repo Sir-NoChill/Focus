@@ -2,6 +2,7 @@ package com.application.focusfxml.uiControllers;
 
 import com.State;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.net.URL;
@@ -9,7 +10,7 @@ import java.util.ResourceBundle;
 
 import static com.State.getTestState;
 
-public class MasterController extends AbstractController {
+public class MasterController extends AbstractController implements Initializable {
     /* GUI Elements
     * This is a comprehensive list of all elements with a function in the program, in theory all methods not
     * directly corresponding to the initialisation of the GUI should be moved into their respective sub Controller
@@ -32,18 +33,12 @@ public class MasterController extends AbstractController {
     @FXML private TreeView subTaskTreeView;
     @FXML private CheckBox selectedTaskComplete;
 
-    protected State state;
+    @FXML private TaskMainTreeViewController treeViewController;
 
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
+    @FXML private OverviewPaneController overviewPaneController;
 
     public MasterController() {
-        this.state = null;
+        super();
     }
 
 
@@ -70,6 +65,15 @@ public class MasterController extends AbstractController {
     //---------------------------------------------------//
     //GETTERS AND SETTERS FOR ALL FIELDS BELOW THIS POINT//
     //---------------------------------------------------//
+
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 
     public TreeView getTaskTreeView() {
         return taskTreeView;

@@ -21,7 +21,7 @@
                <content>
                   <SplitPane dividerPositions="0.6666666666666666">
                      <items>
-                        <TreeView fx:id="taskTreeView" prefHeight="429.0" prefWidth="419.0" showRoot="false" />
+                        <TreeView fx:id="taskTreeView" prefHeight="429.0" prefWidth="419.0" showRoot="true" />
                         <Accordion prefHeight="429.0" prefWidth="217.0">
                            <panes>
                               <TitledPane animated="false" text="Overview">

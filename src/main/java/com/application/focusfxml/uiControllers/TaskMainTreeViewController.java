@@ -6,13 +6,16 @@ import elementStructure.TaskSuperclass;
 import elementStructure.tasks.SuperList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 import uiClassExtensions.ElementTreeCellFactory;
 
-public class TaskMainTreeViewController {
+public class TaskMainTreeViewController extends AbstractController {
+
+    @FXML private TreeView taskTreeView;
 
 
     ///////////////////////////////////////////////////////
