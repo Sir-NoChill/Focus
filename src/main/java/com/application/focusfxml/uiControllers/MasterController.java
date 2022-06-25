@@ -23,7 +23,6 @@ public class MasterController extends AbstractController implements Initializabl
     * Strike that again, what we are going to do is make a whole shwack of classes that define methods for
     * each of the elements contained within the scene
      */
-    @FXML private TreeView taskTreeView;
     @FXML private TabPane masterTabView;
     @FXML private ProgressBar selectedTaskProgressBar;
     @FXML private Label selectedTaskProgress;
@@ -32,10 +31,7 @@ public class MasterController extends AbstractController implements Initializabl
     @FXML private Slider selectedTaskProgressSlider;
     @FXML private TreeView subTaskTreeView;
     @FXML private CheckBox selectedTaskComplete;
-
     @FXML private TaskMainTreeViewController treeViewController;
-
-    @FXML private OverviewPaneController overviewPaneController;
 
     public MasterController() {
         super();
@@ -56,10 +52,7 @@ public class MasterController extends AbstractController implements Initializabl
         //FOR TESTING PURPOSES ONLY!!!!
         //TODO Comment this out when the time comes!!!!
         this.state = getTestState();
-        //---------------------------
-        TaskMainTreeViewController.treeStateInit(taskTreeView,this.state);
-        OverviewPaneController.overviewPaneInit();
-
+        treeViewController = new TaskMainTreeViewController();
     }
 
     //---------------------------------------------------//
@@ -73,14 +66,6 @@ public class MasterController extends AbstractController implements Initializabl
 
     public void setState(State state) {
         this.state = state;
-    }
-
-    public TreeView getTaskTreeView() {
-        return taskTreeView;
-    }
-
-    public void setTaskTreeView(TreeView taskTreeView) {
-        this.taskTreeView = taskTreeView;
     }
 
     public TabPane getMasterTabView() {

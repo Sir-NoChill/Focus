@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<Tab text="Tasks" xmlns:fx="">
+<Tab text="Tasks" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.focusfxml.uiControllers.TaskMainTreeViewController">
     <content>
         <SplitPane dividerPositions="0.6666666666666666">
             <items>

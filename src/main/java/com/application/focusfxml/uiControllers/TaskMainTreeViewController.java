@@ -7,13 +7,17 @@ import elementStructure.tasks.SuperList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.util.Callback;
 import uiClassExtensions.ElementTreeCellFactory;
 
-public class TaskMainTreeViewController extends AbstractController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class TaskMainTreeViewController extends AbstractController implements Initializable {
 
     @FXML private TreeView taskTreeView;
 
@@ -38,7 +42,7 @@ public class TaskMainTreeViewController extends AbstractController {
     //  else
     //      element.add
     //EFFECTS: adds all elements in the state to the treeView
-    public static TreeItem<Element> setTaskTreeView(State state) {
+    public TreeItem<Element> setTaskTreeView(State state) {
         TreeItem<Element> root = new TreeItem<>(new SuperList());
 
         root.setExpanded(true);
@@ -57,7 +61,7 @@ public class TaskMainTreeViewController extends AbstractController {
      */
     //Recursive call to be executed on the root node with all the elements from the State, which should be divided into
     //two different SuperLists, one for completed = true, and one for completed = false
-    private static void addTreeItems(TreeItem<Element> parent, Element child) {
+    private void addTreeItems(TreeItem<Element> parent, Element child) {
         if (TaskSuperclass.class.isAssignableFrom(child.getClass())) {
             TreeItem<Element> addedItem = new TreeItem<>(child);
             parent.getChildren().add(addedItem);
@@ -68,23 +72,12 @@ public class TaskMainTreeViewController extends AbstractController {
             parent.getChildren().add(new TreeItem<>(child));
         }
     }
-    /**
-     *
-     * @param taskTreeView
-     * @param state
-     */
-    public static void treeStateInit(TreeView taskTreeView, State state) {
-        taskTreeView.setRoot(setTaskTreeView(state));
-        taskTreeView.setEditable(true);
-        setCellFactory(taskTreeView);
-        setFocusListener(taskTreeView);
-    }
 
     /**
      * sets the cell factory of taskTreeView to ElementTreeCellFactory
      * @param taskTreeView
      */
-    private static void setCellFactory(TreeView taskTreeView) {
+    private void setCellFactory(TreeView taskTreeView) {
         taskTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
             @Override
             public TreeCell<Element> call(TreeView param) {
@@ -100,7 +93,7 @@ public class TaskMainTreeViewController extends AbstractController {
      * however the listener may be necessary for the call to be made
      * @param taskTreeView
      */
-    private static void setFocusListener(TreeView taskTreeView) {
+    private void setFocusListener(TreeView taskTreeView) {
         taskTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observable, Object oldValue, Object newValue) {
@@ -109,11 +102,27 @@ public class TaskMainTreeViewController extends AbstractController {
         });
     }
 
-    public static Element getSelectedElement(TreeView treeView) {
+    public Element getSelectedElement(TreeView treeView) {
         TreeItem elementTreeItem = (TreeItem) treeView.getSelectionModel().getSelectedItem();
         Element element = (Element) elementTreeItem.getValue();
 
         return element;
     }
 
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        taskTreeView.setRoot(setTaskTreeView(state));
+        taskTreeView.setEditable(true);
+        setCellFactory(taskTreeView);
+        setFocusListener(taskTreeView);
+    }
 }
