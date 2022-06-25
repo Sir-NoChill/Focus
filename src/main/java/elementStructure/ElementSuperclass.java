@@ -37,4 +37,16 @@ public abstract class ElementSuperclass {
     public double getProgress() {
         return this.progress;
     }
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
 }

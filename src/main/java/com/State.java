@@ -26,7 +26,9 @@ public class State {
         Element superList = new SuperList();
 
         Element project1 = new Project();
+        project1.setProgress(10);
         Element project2 = new Project();
+        project2.setProgress(20.0);
         Element project3 = new Project();
         Element project4 = new Project();
 
@@ -41,6 +43,7 @@ public class State {
         project4.setTitle("p4");
 
         reading1.setTitle("r1");
+        reading1.setProgress(50);
         reading2.setTitle("r2");
         reading3.setTitle("r3");
         reading4.setTitle("r4");

@@ -22,4 +22,7 @@ public interface Element {
 
     void setTitle(String text);
     double getProgress();
+    double getTime();
+    boolean isComplete();
+    void setProgress(double progress);
 }

@@ -8,19 +8,32 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.util.Callback;
 import uiClassExtensions.ElementTreeCellFactory;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class TaskMainTreeViewController extends AbstractController implements Initializable {
 
-    @FXML private TreeView taskTreeView;
+    @FXML private TreeView<Element> taskTreeView;
+    private Element currentSelection;
 
+    @FXML private ProgressBar selectedTaskProgressBar;
+    @FXML private Label selectedTaskProgress;
+    @FXML private Label selectedTaskChildrenCount;
+    @FXML private Label selectedTaskEstimatedTimeRemaining; //TODO Denotes the type of time, or hours/minutes maybe
+    @FXML private Slider selectedTaskProgressSlider;
+    @FXML private TreeView subTaskTreeView;
+    @FXML private CheckBox selectedTaskComplete;
+
+
+    public TaskMainTreeViewController() {
+        this.currentSelection = null;
+    }
 
     ///////////////////////////////////////////////////////
     //                                                   //
@@ -49,6 +62,24 @@ public class TaskMainTreeViewController extends AbstractController implements In
 
         while (!state.getElements().isEmpty()) {
             addTreeItems(root, state.getElements().pop());
+        }
+
+        return root;
+    }
+
+    public TreeItem<Element> buildSubTaskTreeView(Element element) {
+        TreeItem<Element> root = new TreeItem<>(element);
+        root.setExpanded(true);
+
+        Stack<Element> elementStack = new Stack<>();
+        if (TaskSuperclass.class.isAssignableFrom(element.getClass())) {
+            for (Element child : ((TaskSuperclass) element).getChildren()) {
+                elementStack.push(child);
+            }
+        }
+
+        while (!elementStack.isEmpty()) {
+            addTreeItems(root,elementStack.pop());
         }
 
         return root;
@@ -94,19 +125,23 @@ public class TaskMainTreeViewController extends AbstractController implements In
      * @param taskTreeView
      */
     private void setFocusListener(TreeView taskTreeView) {
-        taskTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+        taskTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<Element>>() {
+            /**
+             * Called when the value of an {@link ObservableValue} changes.
+             * <p>
+             * In general, it is considered bad practice to modify the observed value in
+             * this method.
+             *
+             * @param observable The {@code ObservableValue} which value changed
+             * @param oldValue   The old value
+             * @param newValue   The new value
+             */
             @Override
-            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                Element e = (Element) ((TreeItem) newValue).getValue();
+            public void changed(ObservableValue<? extends TreeItem<Element>> observable, TreeItem<Element> oldValue, TreeItem<Element> newValue) {
+                currentSelection = newValue.getValue();
+                update();
             }
         });
-    }
-
-    public Element getSelectedElement(TreeView treeView) {
-        TreeItem elementTreeItem = (TreeItem) treeView.getSelectionModel().getSelectedItem();
-        Element element = (Element) elementTreeItem.getValue();
-
-        return element;
     }
 
     /**
@@ -124,5 +159,65 @@ public class TaskMainTreeViewController extends AbstractController implements In
         taskTreeView.setEditable(true);
         setCellFactory(taskTreeView);
         setFocusListener(taskTreeView);
+        setCellFactory(subTaskTreeView);
     }
+
+    private void update() {
+        Element e = currentSelection;
+
+        setSelectedTaskProgressBar(e);
+        setSelectedTaskProgress(e);
+        setSelectedTaskChildrenCount(e);
+        setSelectedTaskEstimatedTimerRemaining(e);
+        setSelectedTaskProgressSlider(e);
+        setSelectedTaskSubTaskTreeView(e);
+        setSelectedTaskComplete(e);
+    }
+
+    private void setSelectedTaskProgressBar(Element element) {
+        double progress = element.getProgress();
+        selectedTaskProgressBar.setProgress(progress/100);
+    }
+
+    private void setSelectedTaskProgress(Element element) {
+        double progress = element.getProgress();
+        selectedTaskProgress.setText(String.valueOf(progress) + "%");
+    }
+
+    private void setSelectedTaskChildrenCount(Element element) {
+        Iterator<Element> elementIterator = element.createIterator();
+
+        int i = 0;
+        while (elementIterator.hasNext()) {
+            i++;
+            elementIterator.next();
+        }
+
+        selectedTaskChildrenCount.setText(String.valueOf(i));
+    }
+
+    private void setSelectedTaskEstimatedTimerRemaining(Element element) {
+        double time = element.getTime();
+        selectedTaskEstimatedTimeRemaining.setText(String.valueOf(time));
+    }
+
+    private void setSelectedTaskProgressSlider(Element element) {
+        double progress = element.getProgress();
+        selectedTaskProgressSlider.setMin(0);
+        selectedTaskProgressSlider.setMax(100);
+        selectedTaskProgressSlider.setValue(progress);
+    }
+
+    private void setSelectedTaskSubTaskTreeView(Element element) {
+        TreeItem<Element> root = buildSubTaskTreeView(element);
+        subTaskTreeView.setRoot(root);
+        //TODO this needs to notify the entire tree if the user adds something
+        // so that the nodes can dynamically update
+    }
+
+    private void setSelectedTaskComplete(Element element) {
+        boolean complete = element.isComplete();
+        this.selectedTaskComplete.setSelected(complete);
+    }
+
 }

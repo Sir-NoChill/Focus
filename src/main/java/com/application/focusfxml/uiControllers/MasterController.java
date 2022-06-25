@@ -24,13 +24,6 @@ public class MasterController extends AbstractController implements Initializabl
     * each of the elements contained within the scene
      */
     @FXML private TabPane masterTabView;
-    @FXML private ProgressBar selectedTaskProgressBar;
-    @FXML private Label selectedTaskProgress;
-    @FXML private Label selectedTaskChildrenCount;
-    @FXML private Label selectedTaskEstimatedTimeRemaining; //TODO Denotes the type of time, or hours/minutes maybe
-    @FXML private Slider selectedTaskProgressSlider;
-    @FXML private TreeView subTaskTreeView;
-    @FXML private CheckBox selectedTaskComplete;
     @FXML private TaskMainTreeViewController treeViewController;
 
     public MasterController() {
@@ -74,61 +67,5 @@ public class MasterController extends AbstractController implements Initializabl
 
     public void setMasterTabView(TabPane masterTabView) {
         this.masterTabView = masterTabView;
-    }
-
-    public ProgressBar getSelectedTaskProgressBar() {
-        return selectedTaskProgressBar;
-    }
-
-    public void setSelectedTaskProgressBar(ProgressBar selectedTaskProgressBar) {
-        this.selectedTaskProgressBar = selectedTaskProgressBar;
-    }
-
-    public CheckBox getSelectedTaskComplete() {
-        return selectedTaskComplete;
-    }
-
-    public void setSelectedTaskComplete(CheckBox selectedTaskComplete) {
-        this.selectedTaskComplete = selectedTaskComplete;
-    }
-
-    public Label getSelectedTaskProgress() {
-        return selectedTaskProgress;
-    }
-
-    public void setSelectedTaskProgress(Label selectedTaskProgress) {
-        this.selectedTaskProgress = selectedTaskProgress;
-    }
-
-    public Label getSelectedTaskChildrenCount() {
-        return selectedTaskChildrenCount;
-    }
-
-    public void setSelectedTaskChildrenCount(Label selectedTaskChildrenCount) {
-        this.selectedTaskChildrenCount = selectedTaskChildrenCount;
-    }
-
-    public Label getSelectedTaskEstimatedTimeRemaining() {
-        return selectedTaskEstimatedTimeRemaining;
-    }
-
-    public void setSelectedTaskEstimatedTimeRemaining(Label selectedTaskEstimatedTimeRemaining) {
-        this.selectedTaskEstimatedTimeRemaining = selectedTaskEstimatedTimeRemaining;
-    }
-
-    public Slider getSelectedTaskProgressSlider() {
-        return selectedTaskProgressSlider;
-    }
-
-    public void setSelectedTaskProgressSlider(Slider selectedTaskProgressSlider) {
-        this.selectedTaskProgressSlider = selectedTaskProgressSlider;
-    }
-
-    public TreeView getSubTaskTreeView() {
-        return subTaskTreeView;
-    }
-
-    public void setSubTaskTreeView(TreeView subTaskTreeView) {
-        this.subTaskTreeView = subTaskTreeView;
     }
 }

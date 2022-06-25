@@ -31,7 +31,7 @@ public class FocusApplication extends Application {
     public void start(Stage stage) throws Exception {
         setupInjector();
 
-        Parent root = Injector.load("GUIv4.fxml");
+        Parent root = Injector.load("GUIv5.fxml");
 //        FXMLLoader fxmlLoader = new FXMLLoader(
 //                HelloApplication.class.getResource("GUIv3.fxml"),
 //                ResourceBundle.getBundle("focusfxml"),
