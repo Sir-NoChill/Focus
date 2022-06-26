@@ -11,7 +11,6 @@ import javafx.util.Callback;
 import java.util.ResourceBundle;
 
 public class FocusApplication extends Application {
-    private MasterController masterController;
     /**
      * The main entry point for all JavaFX applications.
      * The start method is called after the init method has returned,
@@ -31,30 +30,7 @@ public class FocusApplication extends Application {
     public void start(Stage stage) throws Exception {
         setupInjector();
 
-        Parent root = Injector.load("GUIv5.fxml");
-//        FXMLLoader fxmlLoader = new FXMLLoader(
-//                HelloApplication.class.getResource("GUIv3.fxml"),
-//                ResourceBundle.getBundle("focusfxml"),
-//                new JavaFXBuilderFactory(),
-//                param -> {
-//                    //This needs to return the custon Controller class
-//                    //With data?
-//                    //State state = State.getTestState();
-//                    //return new Controller(state); //Returns a new controller with the state data
-//                    return null;
-//                }
-//        );
-
-//        Scene scene = new Scene(fxmlLoader.load(), 1000, 800);
-//        controllerInit();
-//        Put a loading sequence here that loads the last state if it is available, if not, start a new state
-//        Loading sequence should load a new MasterController which holds a field that is a State
-//        State state;
-//        if (lastStateAvailable) {
-//            load(lastState);
-//        } else {
-//            loadDefaultState();
-//        }
+        Parent root = Injector.load("focus_MainView(GUIv6).fxml");
         stage.setTitle("Focus");
         stage.setScene(new Scene(root,1000,800));
         stage.show();

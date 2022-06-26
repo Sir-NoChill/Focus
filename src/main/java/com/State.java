@@ -24,6 +24,7 @@ public class State {
         State state = new State();
 
         Element superList = new SuperList();
+        superList.setTitle("To Do");
 
         Element project1 = new Project();
         project1.setProgress(10);

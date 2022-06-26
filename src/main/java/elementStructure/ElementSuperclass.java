@@ -10,6 +10,7 @@ public abstract class ElementSuperclass {
     protected Iterator<Element> iterator;
     protected double progress;
     protected double time;
+    protected double previousProgress;
 
     public static final boolean DEFAULT_COMPLETE = false;
     public static final int DEFAULT_EXP_VALUE = 0;
@@ -48,5 +49,23 @@ public abstract class ElementSuperclass {
 
     public void setProgress(double progress) {
         this.progress = progress;
+    }
+
+    public int getThisTaskExp() {
+        return this.expValue;
+    }
+    public void setExp(int exp) {
+        this.expValue = exp;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+
+    public void setParent(Element element) {
+        //TODO
     }
 }

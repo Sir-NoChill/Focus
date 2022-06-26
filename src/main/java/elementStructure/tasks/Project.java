@@ -6,7 +6,7 @@ public class Project extends TaskSuperclass {
 
     public Project() {
         super();
-        this.title = "empty";
+        this.title = "New Project";
     }
 
     @Override

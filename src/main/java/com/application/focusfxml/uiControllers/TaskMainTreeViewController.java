@@ -6,12 +6,18 @@ import elementStructure.TaskSuperclass;
 import elementStructure.tasks.SuperList;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import uiClassExtensions.ElementTreeCellFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -22,6 +28,8 @@ public class TaskMainTreeViewController extends AbstractController implements In
     @FXML private TreeView<Element> taskTreeView;
     private Element currentSelection;
 
+    @FXML private TitledPane selectedTaskAccordionViewOverview;
+    @FXML private Label selectedTaskExpRemaining;
     @FXML private ProgressBar selectedTaskProgressBar;
     @FXML private Label selectedTaskProgress;
     @FXML private Label selectedTaskChildrenCount;
@@ -29,19 +37,31 @@ public class TaskMainTreeViewController extends AbstractController implements In
     @FXML private Slider selectedTaskProgressSlider;
     @FXML private TreeView subTaskTreeView;
     @FXML private CheckBox selectedTaskComplete;
+    @FXML private Button selectedTaskEditButton;
 
+    protected boolean creation;
 
-    public TaskMainTreeViewController() {
-        this.currentSelection = null;
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location  The location used to resolve relative paths for the root object, or
+     *                  {@code null} if the location is not known.
+     * @param resources The resources used to localize the root object, or {@code null} if
+     *                  the root object was not localized.
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        taskTreeView.setRoot(setTaskTreeView(state));
+        taskTreeView.setEditable(true);
+        taskTreeView.setShowRoot(false);
+        setCellFactory(taskTreeView);
+        setFocusListener(taskTreeView);
+        setCellFactory(subTaskTreeView);
+
+        progressSliderValueListener();
+        completedCheckboxListener();
     }
-
-    ///////////////////////////////////////////////////////
-    //                                                   //
-    //        STATIC METHODS                             //
-    //                                                   //
-    ///////////////////////////////////////////////////////
-
-
     /**
      *
      * @param state
@@ -67,7 +87,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
         return root;
     }
 
-    public TreeItem<Element> buildSubTaskTreeView(Element element) {
+    private TreeItem<Element> buildSubTaskTreeView(Element element) {
         TreeItem<Element> root = new TreeItem<>(element);
         root.setExpanded(true);
 
@@ -108,7 +128,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
      * sets the cell factory of taskTreeView to ElementTreeCellFactory
      * @param taskTreeView
      */
-    private void setCellFactory(TreeView taskTreeView) {
+    void setCellFactory(TreeView taskTreeView) {
         taskTreeView.setCellFactory(new Callback<TreeView, TreeCell>() {
             @Override
             public TreeCell<Element> call(TreeView param) {
@@ -144,34 +164,54 @@ public class TaskMainTreeViewController extends AbstractController implements In
         });
     }
 
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location  The location used to resolve relative paths for the root object, or
-     *                  {@code null} if the location is not known.
-     * @param resources The resources used to localize the root object, or {@code null} if
-     *                  the root object was not localized.
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        taskTreeView.setRoot(setTaskTreeView(state));
-        taskTreeView.setEditable(true);
-        setCellFactory(taskTreeView);
-        setFocusListener(taskTreeView);
-        setCellFactory(subTaskTreeView);
+
+
+    private void completedCheckboxListener() {
+        selectedTaskComplete.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (newValue) {
+                    currentSelection.complete();
+                } else {
+                    currentSelection.unComplete();
+                }
+            }
+        });
     }
 
-    private void update() {
+    private void progressSliderValueListener() {
+        selectedTaskProgressSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                currentSelection.setProgress(Double.parseDouble(String.valueOf(newValue)));
+                update();
+            }
+        });
+    }
+
+    void update() {
         Element e = currentSelection;
 
-        setSelectedTaskProgressBar(e);
-        setSelectedTaskProgress(e);
         setSelectedTaskChildrenCount(e);
         setSelectedTaskEstimatedTimerRemaining(e);
+        setSelectedTaskProgressBar(e);
+        setSelectedTaskProgress(e);
         setSelectedTaskProgressSlider(e);
         setSelectedTaskSubTaskTreeView(e);
         setSelectedTaskComplete(e);
+        setSelectedTaskExpValue(e);
+        setSplitViewOverviewTitle(e);
+
+        taskTreeView.refresh();
+    }
+
+    private void setSplitViewOverviewTitle(Element element) {
+        selectedTaskAccordionViewOverview.setText("Overview: " + element.getTitle());
+    }
+
+    private void setSelectedTaskExpValue(Element element) {
+        int exp = element.getRemainingExp();
+        selectedTaskExpRemaining.setText(String.valueOf(exp));
     }
 
     private void setSelectedTaskProgressBar(Element element) {
@@ -202,6 +242,11 @@ public class TaskMainTreeViewController extends AbstractController implements In
     }
 
     private void setSelectedTaskProgressSlider(Element element) {
+        if (TaskSuperclass.class.isAssignableFrom(element.getClass())) {
+            selectedTaskProgressSlider.setDisable(true);
+        } else {
+            selectedTaskProgressSlider.setDisable(false);
+        }
         double progress = element.getProgress();
         selectedTaskProgressSlider.setMin(0);
         selectedTaskProgressSlider.setMax(100);
@@ -213,11 +258,65 @@ public class TaskMainTreeViewController extends AbstractController implements In
         subTaskTreeView.setRoot(root);
         //TODO this needs to notify the entire tree if the user adds something
         // so that the nodes can dynamically update
+
+        //IDEAS note that this might work better if it were a tree grid view or whatever
+        // That  would allow me to place progress etc next to each tree node
     }
 
     private void setSelectedTaskComplete(Element element) {
         boolean complete = element.isComplete();
         this.selectedTaskComplete.setSelected(complete);
     }
+
+    @FXML
+    void setSelectedTaskProgress(DragEvent event) {
+        if (event.isDropCompleted()) {
+            currentSelection.setProgress(selectedTaskProgressSlider.getValue());
+            update();
+            System.out.println("Dragged");
+        }
+    }
+
+    @FXML
+    void openEditDialogue(ActionEvent event) throws IOException {
+        creation = false;
+//        FXMLLoader fxmlLoader = new FXMLLoader(FocusApplication.class.getResource("focus_EditItemDialogue.fxml"));
+//
+//        EditDialogueController controller = new EditDialogueController();
+//        controller.setCurrentParentSelection(this.currentSelection);
+//        fxmlLoader.setController(controller);
+        setupInjector();
+        Parent root = Injector.load("focus_EditItemDialogue.fxml");
+
+        Stage stage = new Stage();
+
+        stage.setScene(new Scene(root,600,500));
+        stage.setTitle("Edit Task");
+        stage.show();
+    }
+
+    private void setupInjector() {
+        Injector.setBundle(ResourceBundle.getBundle("focusfxml"));
+        Callback<Class<?>,Object> controllerFactory = param -> {
+            //TODO Get Data (this will be from the saved file eventually
+            // Right now the state is from a static method in the abstract controller
+            EditDialogueController controller = new EditDialogueController();
+            controller.setCurrentParentSelection(this.currentSelection);
+            controller.setParent(this);
+            return controller;
+        };
+
+        Injector.addInjectionMethod(
+                EditDialogueController.class,controllerFactory
+        );
+    }
+
+    @FXML
+    void completeTask(ActionEvent event) {
+        currentSelection.complete();
+    }
+
+    /////GETTERS AND SETTERS AS NECESSARY
+
 
 }

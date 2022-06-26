@@ -25,4 +25,11 @@ public interface Element {
     double getTime();
     boolean isComplete();
     void setProgress(double progress);
+    void unComplete();
+    int getRemainingExp();
+    int getThisTaskExp();
+    void setExp(int exp);
+    void setDescription(String description);
+    void setTime(double time);
+    void setParent(Element parent);
 }

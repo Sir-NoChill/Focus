@@ -63,6 +63,11 @@ public class ElementTreeCellFactory extends TreeCell<Element> {
                 elementTreeItem = new TreeItem<>(new Reading());
 
                 getTreeItem().getChildren().add(elementTreeItem);
+                try {
+                    getTreeItem().getValue().addChildren(elementTreeItem.getValue());
+                } catch (LeafAddChildException e) {
+                    //pass
+                }
                 break;
         }
     }

@@ -65,4 +65,58 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
     public Collection<Element> getChildren() {
        return this.children;
     }
+
+    @Override
+    public boolean isComplete() {
+       this.progress = previousProgress;
+       boolean subTasksComplete = true;
+        for (Element child : this.children) {
+            if (child.isComplete()) {
+                //pass
+            } else {
+                subTasksComplete = false;
+            }
+        }
+       if (subTasksComplete) {
+           return true;
+       } else {
+           return false;
+        }
+    }
+
+    @Override
+    public double getProgress() {
+       Iterator<Element> elementIterator = this.createIterator();
+
+       int i = 0;
+       double progress = 0;
+       while (elementIterator.hasNext()) {
+           i ++;
+           progress += elementIterator.next().getProgress();
+       }
+
+       return progress/i;
+    }
+
+    @Override
+    public void unComplete() {
+       this.complete = false;
+       this.progress = previousProgress;
+        for (Element child : this.children) {
+            child.unComplete();
+        }
+    }
+
+    @Override
+    public int getRemainingExp() {
+       int exp = 0;
+
+       exp += this.expValue;
+
+        for (Element child : this.children) {
+            exp += child.getRemainingExp();
+        }
+
+        return exp;
+    }
 }

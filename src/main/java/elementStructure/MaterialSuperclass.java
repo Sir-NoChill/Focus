@@ -12,9 +12,12 @@ public abstract class MaterialSuperclass extends ElementSuperclass implements El
 
     }
 
+    //HEEEEK I need to test this
     @Override
     public void complete() {
         //getExpCounterInstance().add(this.expValue);
+        this.previousProgress = progress;
+        this.progress = 100;
         this.complete = true;
     }
 
@@ -40,6 +43,22 @@ public abstract class MaterialSuperclass extends ElementSuperclass implements El
     @Override
     public void addChildren(Element element) throws LeafAddChildException {
         throw new LeafAddChildException();
+    }
+
+    //this too must be tested
+    @Override
+    public void unComplete() {
+        if (previousProgress == 100.00) {
+            this.complete = true;
+        } else {
+            this.progress = previousProgress;
+            this.complete = false;
+        }
+    }
+
+    @Override
+    public int getRemainingExp() {
+        return this.expValue;
     }
 
 }

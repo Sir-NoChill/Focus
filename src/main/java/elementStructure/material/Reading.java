@@ -18,7 +18,7 @@ public class Reading extends MaterialSuperclass {
         super();
         this.length = 1;
         this.lengthType = LengthType.CHAPTER;
-        this.title = "empty";
+        this.title = "New Reading";
     }
 
     @Override
