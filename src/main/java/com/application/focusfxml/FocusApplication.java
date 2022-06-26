@@ -1,5 +1,7 @@
 package com.application.focusfxml;
 
+import com.Profile;
+import com.application.focusfxml.uiControllers.AbstractController;
 import com.application.focusfxml.uiControllers.Injector;
 import com.application.focusfxml.uiControllers.MasterController;
 import javafx.application.Application;
@@ -42,7 +44,9 @@ public class FocusApplication extends Application {
         Callback<Class<?>,Object> controllerFactory = param -> {
             //TODO Get Data (this will be from the saved file eventually
             // Right now the state is from a static method in the abstract controller
-            return new MasterController();
+            AbstractController.setProfile(Profile.getTestState());
+            MasterController controller = new MasterController();
+            return controller;
         };
 
         Injector.addInjectionMethod(

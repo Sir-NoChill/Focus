@@ -1,34 +1,31 @@
 package com.application.focusfxml.uiControllers;
 
-import com.State;
+import com.Profile;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static com.State.getTestState;
-
 public class MasterController extends AbstractController implements Initializable {
-    /* GUI Elements
-    * This is a comprehensive list of all elements with a function in the program, in theory all methods not
-    * directly corresponding to the initialisation of the GUI should be moved into their respective sub Controller
-    * denoted by itemNameController.
-    *
-    *
-    * Strike all of that up there, this should almost be the final inheriting class that inherits every other
-    * controller so that the fields are distributed in the correct places
-    *
-    * Strike that again, what we are going to do is make a whole shwack of classes that define methods for
-    * each of the elements contained within the scene
-     */
+    @FXML private SplitPane treeViewTab;
+    @FXML private TaskMainTreeViewController treeViewTabController;
+    @FXML private Label profileTasks;
+    @FXML private Label profileExp;
+    @FXML private Label profileRewards;
     @FXML private TabPane masterTabView;
-    @FXML private TaskMainTreeViewController treeViewController;
+    @FXML private MenuItem saveCurrentProfile;
+    @FXML private MenuItem editCurrentProfile;
 
-    public MasterController() {
-        super();
-    }
 
 
     /**
@@ -42,10 +39,57 @@ public class MasterController extends AbstractController implements Initializabl
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //FOR TESTING PURPOSES ONLY!!!!
-        //TODO Comment this out when the time comes!!!!
-        this.state = getTestState();
-        treeViewController = new TaskMainTreeViewController();
+        update();
+        treeViewTabController.setMasterController(this);
+    }
+
+    public void update() {
+        setProfileTasks();
+        setProfileExp();
+        setProfileRewards();
+    }
+
+    private void setProfileRewards() {
+        profileRewards.setText("Coming Soon");
+    }
+
+    private void setProfileExp() {
+        profileExp.setText(String.valueOf("Exp: " + profile.getExp()));
+    }
+
+    private void setProfileTasks() {
+
+        int i = 0;
+        while (!profile.getElements().isEmpty()) {
+            i += profile.getElements().pop().countChildren();
+        }
+
+        profileTasks.setText("Total incomplete tasks: " + i);
+    }
+
+
+    public void saveProfile(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save");
+
+        File file = fileChooser.showSaveDialog(masterTabView.getScene().getWindow());
+
+        if (file != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            Profile saveProfile = AbstractController.profile;
+            try {
+                objectMapper.writeValue(file, saveProfile);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void editProfile(ActionEvent actionEvent) {
+    }
+
+    public void displayHelp(ActionEvent actionEvent) {
     }
 
     //---------------------------------------------------//
@@ -53,12 +97,12 @@ public class MasterController extends AbstractController implements Initializabl
     //---------------------------------------------------//
 
 
-    public State getState() {
-        return state;
+    public Profile getState() {
+        return profile;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setState(Profile profile) {
+        this.profile = profile;
     }
 
     public TabPane getMasterTabView() {

@@ -1,8 +1,11 @@
 package com.application.focusfxml.uiControllers;
 
-import com.State;
-import elementStructure.Element;
+import com.Profile;
 
 public abstract class AbstractController {
-    protected State state = State.getTestState();
+    protected static Profile profile;
+
+    public static void setProfile(Profile profile) {
+        AbstractController.profile = profile;
+    }
 }

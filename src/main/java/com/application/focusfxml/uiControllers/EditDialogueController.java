@@ -71,7 +71,7 @@ public class EditDialogueController extends TaskMainTreeViewController implement
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        taskParentSelection.setRoot(setTaskTreeView(state));
+        taskParentSelection.setRoot(setTaskTreeView(profile));
         taskParentSelection.setEditable(true);
         taskParentSelection.setShowRoot(false);
         setCellFactory(taskParentSelection);

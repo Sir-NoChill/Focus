@@ -119,4 +119,16 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
 
         return exp;
     }
+
+    @Override
+    public int countChildren() {
+        Iterator<Element> elementIterator = this.createIterator();
+        int i = 0;
+        while (elementIterator.hasNext()) {
+            i++;
+            elementIterator.next();
+        }
+
+        return i;
+    }
 }

@@ -5,8 +5,8 @@ module com.example.focusfxml {
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
 
-    opens com.application.focusfxml to javafx.fxml;
     exports com.application.focusfxml;
     exports com.application.focusfxml.uiControllers;
     opens com.application.focusfxml.uiControllers to javafx.fxml;

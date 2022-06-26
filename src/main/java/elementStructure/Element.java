@@ -32,4 +32,5 @@ public interface Element {
     void setDescription(String description);
     void setTime(double time);
     void setParent(Element parent);
+    int countChildren();
 }

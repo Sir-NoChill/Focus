@@ -61,4 +61,9 @@ public abstract class MaterialSuperclass extends ElementSuperclass implements El
         return this.expValue;
     }
 
+    @Override
+    public int countChildren() {
+        return 0;
+    }
+
 }

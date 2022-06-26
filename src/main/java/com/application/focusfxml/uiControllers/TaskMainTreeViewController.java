@@ -1,6 +1,6 @@
 package com.application.focusfxml.uiControllers;
 
-import com.State;
+import com.Profile;
 import elementStructure.Element;
 import elementStructure.TaskSuperclass;
 import elementStructure.tasks.SuperList;
@@ -39,6 +39,9 @@ public class TaskMainTreeViewController extends AbstractController implements In
     @FXML private CheckBox selectedTaskComplete;
     @FXML private Button selectedTaskEditButton;
 
+    private MasterController masterController;
+
+
     protected boolean creation;
 
     /**
@@ -52,7 +55,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        taskTreeView.setRoot(setTaskTreeView(state));
+        taskTreeView.setRoot(setTaskTreeView(profile));
         taskTreeView.setEditable(true);
         taskTreeView.setShowRoot(false);
         setCellFactory(taskTreeView);
@@ -64,7 +67,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
     }
     /**
      *
-     * @param state
+     * @param profile
      * @return a tree item with chidren corresponding to each element contained in a state
      */
     //Needs to be indirectly recursive
@@ -75,13 +78,13 @@ public class TaskMainTreeViewController extends AbstractController implements In
     //  else
     //      element.add
     //EFFECTS: adds all elements in the state to the treeView
-    public TreeItem<Element> setTaskTreeView(State state) {
+    public TreeItem<Element> setTaskTreeView(Profile profile) {
         TreeItem<Element> root = new TreeItem<>(new SuperList());
 
         root.setExpanded(true);
 
-        while (!state.getElements().isEmpty()) {
-            addTreeItems(root, state.getElements().pop());
+        while (!profile.getElements().isEmpty()) {
+            addTreeItems(root, profile.getElements().pop());
         }
 
         return root;
@@ -171,9 +174,11 @@ public class TaskMainTreeViewController extends AbstractController implements In
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 if (newValue) {
-                    currentSelection.complete();
+                    profile.complete(currentSelection);
+                    update();
                 } else {
-                    currentSelection.unComplete();
+                    profile.unComplete(currentSelection);
+                    update();
                 }
             }
         });
@@ -203,6 +208,8 @@ public class TaskMainTreeViewController extends AbstractController implements In
         setSplitViewOverviewTitle(e);
 
         taskTreeView.refresh();
+
+        masterController.update();
     }
 
     private void setSplitViewOverviewTitle(Element element) {
@@ -313,11 +320,12 @@ public class TaskMainTreeViewController extends AbstractController implements In
 
     @FXML
     void completeTask(ActionEvent event) {
-        currentSelection.complete();
-        update();
     }
 
     /////GETTERS AND SETTERS AS NECESSARY
 
 
+    public void setMasterController(MasterController masterController) {
+        this.masterController = masterController;
+    }
 }
