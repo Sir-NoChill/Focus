@@ -314,6 +314,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
     @FXML
     void completeTask(ActionEvent event) {
         currentSelection.complete();
+        update();
     }
 
     /////GETTERS AND SETTERS AS NECESSARY
