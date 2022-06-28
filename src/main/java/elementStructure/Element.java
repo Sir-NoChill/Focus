@@ -31,6 +31,6 @@ public interface Element {
     void setExp(int exp);
     void setDescription(String description);
     void setTime(double time);
-    void setParent(Element parent);
+    void setParent(Element parent) throws LeafAddChildException;
     int countChildren();
 }

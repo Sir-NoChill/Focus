@@ -2,6 +2,7 @@ package com.application.focusfxml.uiControllers;
 
 import com.Profile;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import elementStructure.Element;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -39,11 +40,13 @@ public class MasterController extends AbstractController implements Initializabl
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         update();
         treeViewTabController.setMasterController(this);
     }
 
     public void update() {
+
         setProfileTasks();
         setProfileExp();
         setProfileRewards();
@@ -60,8 +63,8 @@ public class MasterController extends AbstractController implements Initializabl
     private void setProfileTasks() {
 
         int i = 0;
-        while (!profile.getElements().isEmpty()) {
-            i += profile.getElements().pop().countChildren();
+        for (Element element : profile.getElements()) {
+            i += element.countChildren();
         }
 
         profileTasks.setText("Total incomplete tasks: " + i);
@@ -101,9 +104,9 @@ public class MasterController extends AbstractController implements Initializabl
         return profile;
     }
 
-    public void setState(Profile profile) {
-        this.profile = profile;
-    }
+//    public void setState(Profile profile) {
+//        this.profile = profile;
+//    }
 
     public TabPane getMasterTabView() {
         return masterTabView;

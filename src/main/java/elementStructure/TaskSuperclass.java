@@ -10,10 +10,12 @@ import java.util.Iterator;
 //Component Factory Interface
 public abstract class TaskSuperclass extends ElementSuperclass implements Element {
    protected Collection<Element> children;
+   protected boolean manualProgressCalculation;
 
    protected TaskSuperclass() {
        super();
        this.children = new ArrayList<>();
+       this.manualProgressCalculation = false;
    }
 
     @Override
@@ -86,16 +88,20 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
 
     @Override
     public double getProgress() {
-       Iterator<Element> elementIterator = this.createIterator();
+       if (!manualProgressCalculation) {
+           Iterator<Element> elementIterator = this.createIterator();
 
-       int i = 0;
-       double progress = 0;
-       while (elementIterator.hasNext()) {
-           i ++;
-           progress += elementIterator.next().getProgress();
+           int i = 0;
+           double progress = 0;
+           while (elementIterator.hasNext()) {
+               i++;
+               progress += elementIterator.next().getProgress();
+           }
+
+           return progress / i;
+       } else {
+           return this.progress;
        }
-
-       return progress/i;
     }
 
     @Override
@@ -125,7 +131,7 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
         Iterator<Element> elementIterator = this.createIterator();
         int i = 0;
         while (elementIterator.hasNext()) {
-            i++;
+            i ++;
             elementIterator.next();
         }
 

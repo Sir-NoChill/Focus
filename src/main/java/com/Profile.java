@@ -15,7 +15,12 @@ public class Profile {
     public Profile() {
         this.elements = new Stack<>();
         this.exp = 0;
+    }
 
+    public void addSuperList(String title) {
+        SuperList superList = new SuperList();
+        superList.setTitle(title);
+        this.elements.add(superList);
     }
 
     public static Profile getTestState() {

@@ -1,5 +1,7 @@
 package elementStructure;
 
+import com.exceptions.LeafAddChildException;
+
 import java.util.Iterator;
 
 public abstract class ElementSuperclass {
@@ -65,7 +67,8 @@ public abstract class ElementSuperclass {
         this.time = time;
     }
 
-    public void setParent(Element element) {
-        //TODO
+    public void setParent(Element element) throws LeafAddChildException {
+        element.addChildren((Element) this);
     }
+
 }

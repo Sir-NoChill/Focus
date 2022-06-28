@@ -184,6 +184,12 @@ public class EditDialogueController extends TaskMainTreeViewController implement
     }
 
     private void setCurrentTaskType(Element e) {
+//        String selection = taskTypeComboBox.getSelectionModel().getSelectedItem();
+//
+//        switch (selection) {
+//            case "Reading":
+//            case "Project":
+//        }
     }
 
     private void setTimeField(Element element) {
@@ -245,6 +251,17 @@ public class EditDialogueController extends TaskMainTreeViewController implement
 
     @FXML
     void cancelEdit(ActionEvent event) {
+        EventHandler<ActionEvent> handler = event1 -> {
+            Node source = (Node) event1.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+//            stage.getOnCloseRequest().handle(null);
+
+            parent.update();
+            stage.close();
+        };
+
+        handler.handle(event);
 
     }
 

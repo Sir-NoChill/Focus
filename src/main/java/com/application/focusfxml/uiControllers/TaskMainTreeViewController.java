@@ -55,6 +55,7 @@ public class TaskMainTreeViewController extends AbstractController implements In
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         taskTreeView.setRoot(setTaskTreeView(profile));
         taskTreeView.setEditable(true);
         taskTreeView.setShowRoot(false);
@@ -64,6 +65,8 @@ public class TaskMainTreeViewController extends AbstractController implements In
 
         progressSliderValueListener();
         completedCheckboxListener();
+
+
     }
     /**
      *
@@ -79,13 +82,15 @@ public class TaskMainTreeViewController extends AbstractController implements In
     //      element.add
     //EFFECTS: adds all elements in the state to the treeView
     public TreeItem<Element> setTaskTreeView(Profile profile) {
+
         TreeItem<Element> root = new TreeItem<>(new SuperList());
 
         root.setExpanded(true);
 
-        while (!profile.getElements().isEmpty()) {
-            addTreeItems(root, profile.getElements().pop());
+        for (Element element : profile.getElements()) {
+            addTreeItems(root,element);
         }
+
 
         return root;
     }
