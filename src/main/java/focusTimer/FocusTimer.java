@@ -1,18 +1,17 @@
-package com.focus.focusTimer;
+package focusTimer;
 
-import com.focus.userModel.lists.WorkItem;
+import elementStructure.Element;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static com.focus.ExpCounter.getExpCounterInstance;
 import static java.lang.Math.floor;
 
 public class FocusTimer {
     public static final long DEFAULT_FOCUS_TIMER_LENGTH = 1000 * 60 * 60;
     public static final long DEFAULT_BREAK_LENGTH = 1000 * 60 * 5;
     public static final long DEFAULT_FOCUS_SESSION_LENGTH = 1000 * 60 * 20;
-    private Collection<WorkItem> focusList;
+    private Collection<Element> focusList;
     private Collection<Timer> timers; //IDEAS this might want to be a linked list for the memory access time
     private long timeFocused;
     private int focusExpMod; // a modifier for the expValue of any focus item completed in focus time
@@ -44,16 +43,6 @@ public class FocusTimer {
         this.numberOfBreaks = 0;
     }
 
-
-
-    public void addGoal(WorkItem goal) {
-        this.focusList.add(goal);
-    }
-    public void removeGoal(WorkItem goal) {
-        if (focusList.contains(goal)) {
-            this.focusList.remove(goal);
-        }
-    }
 
     public void generateTimers_NotTimeStrict() {
         this.timers.clear();
@@ -129,24 +118,6 @@ public class FocusTimer {
 
     public void addTimeFocused() {
         this.timeFocused += this.currentTimer.getElapsedTime();
-    }
-
-    public void pauseFocusTimer() {
-        this.isRunning = false;
-    }
-
-    public void completeFocusItem(WorkItem workItem) {
-        int expValue = workItem.getExpValue();
-        workItem.complete();
-        getExpCounterInstance().add(expValue * (focusExpMod - 1));
-    }
-
-    public Collection<WorkItem> getFocusList() {
-        return focusList;
-    }
-
-    public void setFocusList(Collection<WorkItem> focusList) {
-        this.focusList = focusList;
     }
 
     public int getFocusExpMod() {

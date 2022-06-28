@@ -1,4 +1,4 @@
-package com.focus.focusTimer;
+package focusTimer;
 
 //https://stackoverflow.com/questions/10820033/make-a-simple-timer-in-java
 public class Timer {
@@ -51,7 +51,7 @@ public class Timer {
         while (isRunning) {
             if ((startTime + timerLength) <= System.currentTimeMillis()) {
                 pauseTimer();
-                TimerNotifier.playSound();
+                //TimerNotifier.playSound(); //TODO add the sound player to the timer
             }
         }
     }

@@ -1,11 +1,11 @@
 package com.application.junit5;
 
-import com.focus.focusTimer.FocusTimer;
-import com.focus.focusTimer.Timer;
+import focusTimer.FocusTimer;
+import focusTimer.Timer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.focus.focusTimer.FocusTimer.DEFAULT_FOCUS_TIMER_LENGTH;
+import static focusTimer.FocusTimer.DEFAULT_FOCUS_TIMER_LENGTH;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FocusTimerTest {

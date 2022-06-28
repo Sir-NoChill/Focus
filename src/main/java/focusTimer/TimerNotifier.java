@@ -1,9 +1,6 @@
-package com.focus.focusTimer;
+package focusTimer;
 
-import com.application.focus.console.ConsoleMain;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 //The class responsible for playing the sound when you finish a timer
@@ -17,21 +14,21 @@ public class TimerNotifier {
         filePath = "//Focus/src/main/resources/sound/";
     }
 
-    public static synchronized void playSound() {
-        new Runnable() {
-            public void run() {
-                try {
-                    soundFile = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            ConsoleMain.class.getResourceAsStream(filePath + fileName));
-                    soundFile.open(inputStream);
-                    soundFile.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-    }
+//    public static synchronized void playSound() {
+//        new Runnable() {
+//            public void run() {
+//                try {
+//                    soundFile = AudioSystem.getClip();
+//                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+//                            ConsoleMain.class.getResourceAsStream(filePath + fileName));
+//                    soundFile.open(inputStream);
+//                    soundFile.start();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//    }
 
     public static String getFileName() {
         return fileName;
