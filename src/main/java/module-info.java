@@ -1,15 +1,14 @@
-module com.example.focus {
+module com.example.focusfxml {
     requires javafx.controls;
     requires javafx.fxml;
-//    requires javafx.web;
 
-//    requires org.controlsfx.controls;
-//    requires com.dlsc.formsfx;
-//    requires org.kordamp.ikonli.javafx;
-//    requires eu.hansolo.tilesfx;
-    requires se.michaelthelin.spotify;
+    requires org.controlsfx.controls;
+    requires org.kordamp.bootstrapfx.core;
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.databind;
     requires java.desktop;
 
-    opens com.application.focus to javafx.fxml;
-    exports com.application.focus;
+    exports com.application.focusfxml;
+    exports com.application.focusfxml.uiControllers;
+    opens com.application.focusfxml.uiControllers to javafx.fxml;
 }

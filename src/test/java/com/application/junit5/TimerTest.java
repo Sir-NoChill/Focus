@@ -1,11 +1,11 @@
 package com.application.junit5;
 
-import com.focus.focusTimer.Timer;
+import focusTimer.Timer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.focus.focusTimer.Timer.TimerId.BREAK;
-import static com.focus.focusTimer.Timer.TimerId.FOCUS;
+import static focusTimer.Timer.TimerId.BREAK;
+import static focusTimer.Timer.TimerId.FOCUS;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TimerTest {
