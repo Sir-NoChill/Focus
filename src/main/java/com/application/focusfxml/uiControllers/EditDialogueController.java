@@ -211,7 +211,7 @@ public class EditDialogueController extends TaskMainTreeViewController implement
     }
 
     private void setExpField(Element element) {
-        taskExpBox.setText(String.valueOf(element.getThisTaskExp()));
+        taskExpBox.setText(String.valueOf(element.getExp()));
     }
 
     private void setTitleTextField(Element element) {

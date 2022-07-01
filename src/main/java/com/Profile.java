@@ -1,6 +1,8 @@
 package com;
 
 import com.exceptions.LeafAddChildException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import elementStructure.Element;
 import elementStructure.material.Reading;
 import elementStructure.tasks.Project;
@@ -9,12 +11,14 @@ import elementStructure.tasks.SuperList;
 import java.util.Stack;
 
 public class Profile {
+
+    @JsonProperty("profileListOfElements")
     private Stack<Element> elements;
-    private int exp;
+    private int profileExp;
 
     public Profile() {
         this.elements = new Stack<>();
-        this.exp = 0;
+        this.profileExp = 0;
     }
 
     public void addSuperList(String title) {
@@ -23,6 +27,7 @@ public class Profile {
         this.elements.add(superList);
     }
 
+    @JsonIgnore
     public static Profile getTestState() {
 
         Profile profile = new Profile();
@@ -73,13 +78,14 @@ public class Profile {
         return profile;
     }
 
+    @JsonIgnore
     public void complete(Element element) {
-        this.exp += element.getRemainingExp();
+        this.profileExp += element.getRemainingExp();
         element.complete();
     }
 
     public void unComplete(Element element) {
-        this.exp -= element.getRemainingExp();
+        this.profileExp -= element.getRemainingExp();
         element.unComplete();
     }
 
@@ -87,7 +93,13 @@ public class Profile {
         return elements;
     }
 
-    public int getExp() {
-        return exp;
+    public int getProfileExp() {
+        return profileExp;
     }
+
+    public void setProfileExp(int profileExp) {
+        this.profileExp = profileExp;
+    }
+
+
 }

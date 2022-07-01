@@ -46,6 +46,7 @@ public class Timer {
     }
 
     //FIXME this is a UI method, user input should be placed in the while loop
+    //IDEAS if this is a UI mechanism, then it should be implemented in the ui lol
     public void run() {
         startTimer();
         while (isRunning) {

@@ -1,13 +1,23 @@
 package elementStructure;
 
 import com.exceptions.LeafAddChildException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import elementStructure.iterator.ElementIterator;
+import elementStructure.tasks.Project;
+import elementStructure.tasks.SuperList;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
 //Component Factory Interface
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Project.class, name = "project"),
+        @JsonSubTypes.Type(value = SuperList.class, name = "superList")
+})
 public abstract class TaskSuperclass extends ElementSuperclass implements Element {
    protected Collection<Element> children;
    protected boolean manualProgressCalculation;
@@ -35,6 +45,7 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
        return iterator;
    }
 
+   //CUrrently has no use
     /* Lists the child elements of the Task in array form
    *  Primarily for use in GUI creation with the ElementTreeItem class
    *
@@ -45,6 +56,8 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
        int n = children.size();
        Element[] elements = new Element[n];
 
+       iterator = this.createIterator();
+
        int i = 0;
        while (iterator.hasNext()) {
            Element element = iterator.next();
@@ -54,9 +67,10 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
        return elements;
    }
 
+   @JsonIgnore
     @Override
     public boolean isLeaf() {
-        return true;
+        return false;
     }
 
     @Override
@@ -113,6 +127,7 @@ public abstract class TaskSuperclass extends ElementSuperclass implements Elemen
         }
     }
 
+    @JsonIgnore
     @Override
     public int getRemainingExp() {
        int exp = 0;
