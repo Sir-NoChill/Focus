@@ -68,6 +68,11 @@ public class TaskMainTreeViewController extends AbstractController implements In
 
 
     }
+
+    public void repopulateTreeView() {
+        taskTreeView.setRoot(setTaskTreeView(profile));
+        update();
+    }
     /**
      *
      * @param profile
@@ -200,6 +205,9 @@ public class TaskMainTreeViewController extends AbstractController implements In
     }
 
     void update() {
+        if (currentSelection == null) {
+            taskTreeView.getSelectionModel().select(0);
+        }
         Element e = currentSelection;
 
         setSelectedTaskChildrenCount(e);

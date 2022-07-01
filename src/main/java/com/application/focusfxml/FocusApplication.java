@@ -44,7 +44,8 @@ public class FocusApplication extends Application {
         Callback<Class<?>,Object> controllerFactory = param -> {
             //TODO Get Data (this will be from the saved file eventually
             // Right now the state is from a static method in the abstract controller
-            AbstractController.setProfile(Profile.getTestState());
+            //IDEAS Make the state load from a default location and if the default location doesn't exist then load the test state
+            AbstractController.profile = Profile.getTestState();
             MasterController controller = new MasterController();
             return controller;
         };

@@ -1,6 +1,7 @@
 package elementStructure;
 
 import com.exceptions.LeafAddChildException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Iterator;
 
@@ -53,7 +54,7 @@ public abstract class ElementSuperclass {
         this.progress = progress;
     }
 
-    public int getThisTaskExp() {
+    public int getExp() {
         return this.expValue;
     }
     public void setExp(int exp) {
@@ -67,6 +68,7 @@ public abstract class ElementSuperclass {
         this.time = time;
     }
 
+    @JsonIgnore
     public void setParent(Element element) throws LeafAddChildException {
         element.addChildren((Element) this);
     }

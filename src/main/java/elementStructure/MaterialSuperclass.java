@@ -1,11 +1,19 @@
 package elementStructure;
 
 import com.exceptions.LeafAddChildException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import elementStructure.iterator.NullIterator;
+import elementStructure.material.Reading;
 
 import java.util.Iterator;
 
 //Material Factory Interface
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Reading.class, name = "reading")
+})
 public abstract class MaterialSuperclass extends ElementSuperclass implements Element {
 
     public MaterialSuperclass() {
@@ -36,8 +44,9 @@ public abstract class MaterialSuperclass extends ElementSuperclass implements El
         return this.description;
     }
 
+    @JsonIgnore
     public boolean isLeaf() {
-        return false;
+        return true;
     }
 
     @Override
@@ -56,6 +65,7 @@ public abstract class MaterialSuperclass extends ElementSuperclass implements El
         }
     }
 
+    @JsonIgnore
     @Override
     public int getRemainingExp() {
         return this.expValue;

@@ -61,7 +61,7 @@ class ElementSuperclassTest {
     @Test
     void getThisTaskExp() {
         testElement1.setExp(30);
-        assertEquals(30, testElement1.getThisTaskExp());
+        assertEquals(30, testElement1.getExp());
     }
 
     @Test
